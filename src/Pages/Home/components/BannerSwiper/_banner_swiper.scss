@@ -1,0 +1,23 @@
+.banner-swiper {
+  width: 90vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    height: 40vw;
+    width: 80vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  swiper-container {
+    swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

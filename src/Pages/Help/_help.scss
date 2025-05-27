@@ -1,0 +1,74 @@
+.help {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+
+  h1 {
+    color: orange;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: calc(24px + 0.3vw);
+    margin-bottom: 20px;
+  }
+
+  .container {
+    width: 90%;
+    color: rgb(219, 219, 219);
+    h2 {
+      margin-bottom: 10px;
+      font-size: calc(18px + 0.3vw);
+    }
+    p {
+      margin-bottom: 5px;
+      font-size: calc(14px + 0.3vw);
+      color: #000;
+    }
+
+  }
+
+  .seperator {
+    width: 80%;
+    border-top: 1px solid rgba(white , 0.5);
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+.help-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: map-get($template-colors, "white");
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  color: #000000;
+
+  h1, h2, h3, h4, h5, h6 {
+    color: map-get($template-colors, "primary-dark");
+    margin-bottom: 15px;
+  }
+
+  p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+
+  ul {
+    margin-bottom: 10px;
+    padding-left: 20px;
+
+    li {
+      margin-bottom: 5px;
+    }
+  }
+
+  .guide-section {
+    margin-bottom: 30px;
+
+    h2 {
+      color: map-get($template-colors, "primary");
+      border-bottom: 2px solid map-get($template-colors, "accent");
+      padding-bottom: 5px;
+    }
+  }
+}
