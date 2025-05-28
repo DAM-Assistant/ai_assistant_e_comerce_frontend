@@ -39,6 +39,7 @@ const Home = () => {
           background: #0a0a0a;
           position: relative;
           overflow: hidden;
+          padding-top: 100px;
         }
 
         /* Анимированный фон */

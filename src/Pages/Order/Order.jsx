@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { PreduContext } from "../../PreduContext"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import "./Order.css"
 
 const Order = () => {
   const navigate = useNavigate()
@@ -9,6 +10,31 @@ const Order = () => {
   const [ orderSuccessModal, setOrderSuccessModal ] = useState(false)
   const [ newOrderId, setNewOrderId ] = useState(0)
 
+  const [cardNumber, setCardNumber] = useState("")
+  const [cardName, setCardName] = useState("")
+  const [expiry, setExpiry] = useState("")
+  const [cvv, setCvv] = useState("")
+  const [isProcessing, setIsProcessing] = useState(false)
+
+  const [orderItems, setOrderItems] = useState([])
+
+  useEffect(() => {
+    const items = Object.keys(cart)
+      .filter(itemId => cart[itemId] > 0)
+      .map(itemId => {
+        const product = shop.find(p => p.id === parseInt(itemId))
+        if (product) {
+          return {
+            ...product,
+            quantity: cart[itemId],
+            total: product.cost_per_unit * cart[itemId]
+          }
+        }
+        return null
+      })
+      .filter(item => item !== null)
+    setOrderItems(items)
+  }, [cart, shop])
 
   const makeOrder = async() => {
     const order_api = api_path + "/api/orders/"
@@ -43,91 +69,209 @@ const Order = () => {
       window.alert(e.response.data.detail)
     }
   }
-  
+
+  // --- Форматирование и обработчики ввода ---
+
+  // Форматирование номера карты (XXXX XXXX XXXX XXXX)
+  const formatCardNumber = (value) => {
+    const v = value.replace(/\s/g, "").replace(/[^0-9]/gi, "");
+    const matches = v.match(/.{1,4}/g);
+    return matches ? matches.join(" ") : v;
+  };
+
+  // Форматирование даты (ММ/ГГ)
+  const formatExpiry = (value) => {
+    const v = value.replace(/\D/g, "");
+    if (v.length >= 2) {
+      return v.substring(0, 2) + (v.length > 2 ? "/" + v.substring(2, 4) : "");
+    }
+    return v;
+  };
+
+  const handleCardNumberChange = (e) => {
+    const formattedValue = formatCardNumber(e.target.value);
+    setCardNumber(formattedValue);
+  };
+
+  const handleCardNameChange = (e) => {
+    // Разрешаем только буквы и пробелы
+    const cleanedValue = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+    setCardName(cleanedValue);
+  };
+
+  const handleExpiryChange = (e) => {
+    const formattedValue = formatExpiry(e.target.value);
+    setExpiry(formattedValue);
+  };
+
+  const handleCvvChange = (e) => {
+    // Разрешаем только цифры и ограничиваем до 3 символов
+    const cleanedValue = e.target.value.replace(/[^0-9]/g, '').substring(0, 3);
+    setCvv(cleanedValue);
+  };
+
+  // --- Валидация ---
+
+  // Валидация номера карты (16 цифр)
+  const validateCardNumber = (number) => {
+    const cleanedNumber = number.replace(/\s/g, '');
+    if (!/^[0-9]{16}$/.test(cleanedNumber)) {
+      return "Номер карты должен содержать 16 цифр.";
+    }
+    return "";
+  };
+
+  // Валидация имени на карте (не пустое, только буквы и пробелы)
+  const validateCardName = (name) => {
+    if (name.trim() === "") {
+      return "Пожалуйста, введите имя на карте.";
+    }
+    if (/[^a-zA-Z\s]/.test(name)) {
+        return "Имя на карте должно содержать только буквы и пробелы.";
+    }
+    return "";
+  };
+
+  // Валидация даты истечения (формат ММ/ГГ и дата в будущем)
+  const validateExpiry = (date) => {
+    const parts = date.split('/');
+    if (parts.length !== 2 || parts[1].length !== 2) { // Проверяем наличие слеша и 2 цифр после него
+      return "Неверный формат даты (ММ/ГГ).";
+    }
+    const month = parseInt(parts[0], 10);
+    const year = parseInt(parts[1], 10);
+
+    if (isNaN(month) || isNaN(year) || month < 1 || month > 12) {
+      return "Неверный месяц.";
+    }
+
+    const currentYear = new Date().getFullYear() % 100;
+    const currentMonth = new Date().getMonth() + 1; // Месяцы начинаются с 0
+
+    if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      return "Срок действия карты истек.";
+    }
+
+    return "";
+  };
+
+  // Валидация CVV (3 цифры)
+  const validateCvv = (cvv) => {
+    if (!/^[0-9]{3}$/.test(cvv)) {
+      return "CVV должен содержать 3 цифры.";
+    }
+    return "";
+  };
+
+  const handlePayment = () => {
+    const cardNumberError = validateCardNumber(cardNumber);
+    const cardNameError = validateCardName(cardName);
+    const expiryError = validateExpiry(expiry);
+    const cvvError = validateCvv(cvv);
+
+    if (cardNumberError) {
+      alert(cardNumberError);
+      return;
+    }
+    if (cardNameError) {
+      alert(cardNameError);
+      return;
+    }
+    if (expiryError) {
+      alert(expiryError);
+      return;
+    }
+    if (cvvError) {
+      alert(cvvError);
+      return;
+    }
+
+    // Если валидация прошла успешно, выполняем симуляцию оплаты
+    setIsProcessing(true);
+    setTimeout(() => {
+      alert("Оплата прошла успешно! Спасибо за покупку!");
+      setIsProcessing(false);
+      //makeOrder(); // Можно вызвать makeOrder здесь для реального создания заказа
+       navigate("/User"); // Или перенаправить пользователя после успешной симуляции
+    }, 2000);
+  };
+
   return (
     <main className="order">
       <div className="container">
-        <h1>ЗАКАЗ</h1>
+        <div className="main-content">
+          <div className="payment-section">
+            <div className="section-title">Данные карты</div>
+            <div className="card-form">
+              <input
+                type="text"
+                className="form-input"
+                placeholder="Номер карты"
+                maxLength="19" // 16 цифр + 3 пробела
+                value={cardNumber}
+                onChange={handleCardNumberChange}
+              />
+              <input
+                type="text"
+                className="form-input"
+                placeholder="Имя на карте"
+                value={cardName}
+                onChange={handleCardNameChange}
+              />
+              <div className="expiry-cvv">
+                <input
+                  type="text"
+                  className="form-input"
+                  placeholder="ММ/ГГ"
+                  maxLength="5" // ММ/ГГ
+                  value={expiry}
+                  onChange={handleExpiryChange}
+                />
+                <input
+                  type="text"
+                  className="form-input"
+                  placeholder="CVV"
+                  maxLength="3" // 3 цифры
+                  value={cvv}
+                  onChange={handleCvvChange}
+                />
+              </div>
+              <button
+                className={`pay-btn ${isProcessing ? 'processing' : ''}`}
+                onClick={handlePayment}
+                disabled={isProcessing}
+              >
+                {isProcessing ? 'Обрабатывается...' : 'Оплатить'}
+              </button>
+            </div>
+          </div>
 
-        <div className="seperator"></div>
-
-        <h2>Контактная информация</h2>
-
-        <table className="user-info">
-          <tbody>
-            <tr>
-              <th>Имя</th>
-              <td>{currentUser.firstname} {currentUser.lastname}</td>
-            </tr>
-            <tr>
-              <th>Телефон</th>
-              <td>{currentUser.phone}</td>
-            </tr>
-            <tr>
-              <th>Email</th>
-              <td>{currentUser.email}</td>
-            </tr>
-            <tr>
-              <th>Адрес</th>
-              <td>{currentUser.location}</td>
-            </tr>
-          </tbody>
-        </table>
-        
-        <div className="seperator"></div>
-
-        <h2>Товары</h2>
-
-        <table className="order-info">
-          <tbody>
-            <tr>
-              <th className="product-name">Товар</th>
-              <th className="product-quantity">Количество</th>
-              <th className="product-cost">Стоимость</th>
-            </tr>
-            {shop.map((product) => {
-                if (cart[product.id] !== 0) {
-                  return (
-                    <tr key={product.name}>
-                      <td className="product-name">{product.name}</td>
-                      <td className="product-quantity">{cart[product.id]}</td>
-                      <td className="product-cost">{(product.cost_per_unit * cart[product.id]).toLocaleString("en-US")} ₸</td>
-                    </tr>
-                  )
-                }
-            })}
-            <tr>
-              <th colSpan={2} className="total-left">Итого:</th>
-              <th className="total-right">{costTotal.toLocaleString("en-US")} ₸</th>
-            </tr>
-          </tbody>
-        </table>
-
-        <h2>Купон</h2>
-
-        <table className="coupon-info">
-          <tbody>
-            <tr>
-              <th>Код</th>
-              <td>{coupon.code}</td>
-            </tr>
-            <tr>
-              <th>Значение</th>
-              <td>{couponValue.toLocaleString("en-US")} ₸</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div className="seperator"></div>
-
-        <div className="final">
-          <h1>ИТОГО :</h1>
-          <h1>{costFinal.toLocaleString("en-US")} ₸</h1>
+          <div className="sidebar">
+            <div className="sidebar-section">
+              <div className="section-title">Сводка заказа</div>
+              <div className="order-summary">
+                {orderItems.map(item => (
+                  <div className="summary-item" key={item.id}>
+                    <span>{item.name} x {item.quantity}</span>
+                    <span>{(item.total)?.toLocaleString()} ₸</span>
+                  </div>
+                ))}
+              </div>
+              <div className="summary-row">
+                <span>Корзина:</span>
+                <span>{costTotal?.toLocaleString()} ₸</span>
+              </div>
+              <div className="summary-row">
+                <span>Купон ({coupon.code}):</span>
+                <span>-{couponValue?.toLocaleString()} ₸</span>
+              </div>
+              <div className="summary-total">
+                <span>Итого к оплате:</span>
+                <span>{costFinal?.toLocaleString()} ₸</span>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div className="seperator"></div>
-
-        <button className="buy-btn" onClick={makeOrder}>ЗАКАЗАТЬ СЕЙЧАС</button>
       </div>
 
       {orderSuccessModal && (
