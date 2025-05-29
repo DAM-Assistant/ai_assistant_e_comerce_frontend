@@ -1,0 +1,257 @@
+.order {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); /* Градиентный фон из Cart.css */
+    color: rgb(1, 0, 45); /* Белый текст для читаемости */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    padding-top: 100px; /* Добавляем верхний отступ для учета фиксированного хедера */
+}
+
+/* Стили для новой секции оплаты и сводки заказа */
+.order .container {
+    max-width: 1000px; /* Ограничиваем максимальную ширину контейнера */
+    width: 100%;
+    padding: 0 20px; /* Сохраняем боковые отступы */
+    margin: 0 auto; /* Центрируем контейнер */
+    /* padding-top: 80px; Убран, так как добавлен к .order */
+}
+
+.order .main-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Делаем форму оплаты шире сводки */
+    gap: 30px;
+    padding: 30px 0; /* Убираем внутренние боковые отступы, так как они есть у контейнера */
+    /* margin-top: 50px !important; Убран, так как padding-top на .order */
+}
+
+.payment-section,
+.sidebar-section {
+    background: rgba(0, 0, 0, 0.3); /* Полупрозрачный темный фон как в Cart.css */
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Граница как в Cart.css */
+}
+
+.section-title {
+    color: #ffffff; /* Акцентный оранжевый цвет как в Cart.css */
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.card-form input[type="text"] {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05); /* Фон поля ввода как в Cart.css */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Граница поля ввода как в Cart.css */
+    border-radius: 10px;
+    padding: 12px 15px;
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.card-form input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.5); /* Цвет плейсхолдера как в Cart.css */
+}
+
+.card-form input[type="text"]:focus {
+    outline: none;
+    border-color: #4ecdc4; /* Цвет границы при фокусе как в Cart.css */
+    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.3); /* Свечение при фокусе */
+    background: rgba(255, 255, 255, 0.08); /* Чуть светлее фон при фокусе */
+}
+
+.expiry-cvv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.pay-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #4ecdc4, #44a08d); /* Сохраняем оригинальный градиент кнопки */
+    border: none;
+    border-radius: 12px;
+    padding: 18px;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.pay-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(78, 205, 196, 0.3);
+}
+
+.pay-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.pay-btn.processing {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+}
+
+.order-summary {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Граница как в Cart.css */
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.8); /* Цвет текста как в Cart.css */
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9); /* Более яркий цвет для строк с Купоном/Корзиной */
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* Более выраженная граница */
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff6b35; /* Цвет итоговой суммы как в Cart.css */
+}
+
+.payment-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.payment-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 0.6s ease forwards;
+}
+
+.payment-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+@keyframes slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-title {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 15px 20px;
+    color: white;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.form-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #4ecdc4;
+    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.summary-item:first-child {
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+}
+
+.summary-label {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.summary-value {
+    color: white;
+    font-weight: 600;
+}
+
+.total-label {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.total-value {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* Медиа-запрос для адаптивности */
+@media (max-width: 768px) {
+    .order .main-content {
+        grid-template-columns: 1fr; /* Одна колонка на мобильных */
+        gap: 20px;
+    }
+    
+    .expiry-cvv {
+        grid-template-columns: 1fr; /* Одна колонка для даты и CVV на мобильных */
+    }
+} 

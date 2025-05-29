@@ -20,6 +20,7 @@ const AboutUs = () => {
           background: #0a0a0a;
           overflow: hidden;
           padding: 20px;
+          padding-top: 100px;
         }
 
         /* Анимированный фон */
