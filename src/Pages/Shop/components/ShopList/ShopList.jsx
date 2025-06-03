@@ -48,27 +48,30 @@ const ShopList = () => {
       </div>
 
       <div className="shop-list_products">
-        {shop.map((product) => {
-          if (productSearchQuery !== "") {
-            if ((String(product.name) + " " +
-              String(product.brand) + " " +
-              String(product.category) + " " +
-              String(product.cost_per_unit)).toLowerCase().includes(productSearchQuery)) {
+        {shop.length === 0 ? (
+          <div className="empty-shop-message">Нет товаров для отображения.</div>
+        ) : (
+          shop.map((product) => {
+            if (productSearchQuery !== "") {
+              if ((String(product.name) + " " +
+                String(product.brand) + " " +
+                String(product.category) + " " +
+                String(product.cost_per_unit)).toLowerCase().includes(productSearchQuery)) {
+                  return <ShopProduct data={product} key={product.id}/>
+                }
+            }
+            else{
+              if (selectCategory === "all" && selectBrand === "all") {
                 return <ShopProduct data={product} key={product.id}/>
               }
-          }
-          else{
-            if (selectCategory === "all" && selectBrand === "all") {
-              return <ShopProduct data={product} key={product.id}/>
-            }
-            else {
-              if (selectCategory === product.category && selectBrand === product.brand) {
-                return <ShopProduct data={product} key={product.id}/>
+              else {
+                if (selectCategory === product.category && selectBrand === product.brand) {
+                  return <ShopProduct data={product} key={product.id}/>
+                }
               }
             }
-          }
-        })}
-          
+          })
+        )}
       </div>
     </div>
   )

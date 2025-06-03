@@ -1,0 +1,20 @@
+$template-colors: (
+  "primary": #1a1a2e,    // Основной темный
+  "primary-light": #16213e,  // Светлый оттенок основного
+  "primary-dark": #0f3460,   // Темный оттенок основного
+  "accent": #64ffda,     // Акцентный бирюзовый
+  "accent-light": #4fc3f7,  // Светлый акцентный
+  "white": #ffffff,      // Белый
+  "white-light": #b3c5d1,    // Светло-серый
+  "success": #00cc66,    // Зеленый для успешных действий
+  "warning": #ffcc00     // Желтый для предупреждений
+);
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+); 

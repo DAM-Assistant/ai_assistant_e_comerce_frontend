@@ -75,7 +75,7 @@ const Signup = () => {
   return (
     <main className="signup">
       <div className="container">
-        <h1 onClick={toHome}>PreDu</h1>
+        <h1 onClick={toHome}>DAM</h1>
 
         <form className="signup_form">
           <table className="name">

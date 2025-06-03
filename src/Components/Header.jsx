@@ -11,7 +11,7 @@ import { ReactComponent as CategoryMenuIcon } from '../Resources/Icons/keyboard_
 const Header = () => {
   let navigate = useNavigate();
   const location = useLocation();
-  const [isOpen, setOpen] = useState("false");
+  const [isOpen, setOpen] = useState(false);
   const {categoryMenuStatus, changeCategoryMenuStatus, numCartItems} = useContext(PreduContext);
 
   function toggleMenu() {
@@ -21,91 +21,90 @@ const Header = () => {
   // НАВИГАЦИЯ
   function toHome() {
     window.scrollTo(0, 0);
-    if (isOpen === false) {
-      setOpen(!isOpen)
+    if (isOpen) {
+      setOpen(false);
     }
-    if (categoryMenuStatus === true) {
-      changeCategoryMenuStatus()
+    if (categoryMenuStatus) {
+      changeCategoryMenuStatus();
     }
-    navigate('/Home')
+    navigate('/Home');
   }
   
   function toShop() {
     window.scrollTo(0, 0);
-    setOpen(!isOpen)
-    if (categoryMenuStatus === true) {
-      changeCategoryMenuStatus()
+    if (isOpen) {
+      setOpen(false);
     }
-    navigate('/Shop')
+    if (categoryMenuStatus) {
+      changeCategoryMenuStatus();
+    }
+    navigate('/Shop');
   }
 
   function toCart() {
     window.scrollTo(0, 0);
-    setOpen(!isOpen)
-    if (categoryMenuStatus === true) {
-      changeCategoryMenuStatus()
+    if (isOpen) {
+      setOpen(false);
     }
-    navigate('/Cart')
+    if (categoryMenuStatus) {
+      changeCategoryMenuStatus();
+    }
+    navigate('/Cart');
   }
 
   function toUser() {
     window.scrollTo(0, 0);
-    setOpen(!isOpen)
-    if (categoryMenuStatus === true) {
-      changeCategoryMenuStatus()
+    if (isOpen) {
+      setOpen(false);
     }
-    navigate('/User')
+    if (categoryMenuStatus) {
+      changeCategoryMenuStatus();
+    }
+    navigate('/User');
   }
 
   function toHelp() {
     window.scrollTo(0, 0);
-    setOpen(false)
-    if (categoryMenuStatus === true) {
-      changeCategoryMenuStatus()
+    if (isOpen) {
+      setOpen(false);
     }
-    navigate('/Help')
+    if (categoryMenuStatus) {
+      changeCategoryMenuStatus();
+    }
+    navigate('/Help');
   }
 
   function toAboutUs() {
     window.scrollTo(0, 0);
-    setOpen(false)
-    if (categoryMenuStatus === true) {
-      changeCategoryMenuStatus()
+    if (isOpen) {
+      setOpen(false);
     }
-    navigate('/AboutUs')
+    if (categoryMenuStatus) {
+      changeCategoryMenuStatus();
+    }
+    navigate('/AboutUs');
   }
 
   // ПРИЛИПАЮЩИЙ СКРОЛЛ
-  window.addEventListener("scroll", function() {
-    var selection = document.querySelector('.header') !== null;
-    if (selection) {
-      document.querySelector("header").classList.toggle("sticky", window.scrollY > 0)
-    }
-  })
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const header = document.querySelector('.header');
+      if (header) {
+        header.classList.toggle("sticky", window.scrollY > 0);
+      }
+    };
 
-  // УВЕДОМЛЕНИЯ КОРЗИНЫ
-  function CartAlert(props) {
-    const numCartItems = props.numCartItems;
-    if (numCartItems > 0) {
-      return (
-        <h2 className="cart-alert">{numCartItems}</h2>
-      )
-    }
-  }
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="header">
-      
-      <div className="logo">
-        <h1 onClick={toHome}>DAM</h1>
-      </div>
+    <header className={`header ${isOpen ? 'mobile-menu-open' : ''}`}>
+      <div className="container">
+        <div className="logo">
+          <h1 onClick={toHome}>DAM</h1>
+        </div>
 
-      <div className={`container ${isOpen ? "" : "open"}`}>
-        
-        <button className="account-button-responsive" type="button" onClick={toUser}>
-          <AccountCircleIcon className="icon"/>
-        </button>
-        
         <nav className="navigation">
           <ul className="menu-list">
             <li className="menu-item" onClick={toShop}>
@@ -123,29 +122,39 @@ const Header = () => {
         <div className="buttons">
           <button className="cart-button" type="button" onClick={toCart}>
             <ShoppingCartIcon className="icon"/>
-            <h2>Ваша корзина</h2>
-            <CartAlert numCartItems={numCartItems}/>
+            <h2>Корзина</h2>
+            {numCartItems > 0 && (
+              <div className="cart-alert">{numCartItems}</div>
+            )}
           </button>
           <button className="account-button" type="button" onClick={toUser}>
             <AccountCircleIcon className="icon"/>
           </button>
         </div>
-      </div>
 
-      <div className="responsive-buttons">
-        {(location.pathname === '/Shop') && (
-          <button className={`category-menu-button ${categoryMenuStatus ? "open" : ""}`} onClick={changeCategoryMenuStatus} type="button">
-            <CategoryMenuIcon className="icon"/>
+        <div className="responsive-buttons">
+          {(location.pathname === '/Shop') && (
+            <button 
+              className={`category-menu-button ${categoryMenuStatus ? "open" : ""}`} 
+              onClick={changeCategoryMenuStatus} 
+              type="button"
+            >
+              <CategoryMenuIcon className="icon"/>
+            </button>
+          )}
+
+          <button 
+            className={`menu-button ${isOpen ? "open" : ""}`} 
+            onClick={toggleMenu} 
+            type="button"
+          >
+            <MenuIcon className="menu-icon"/>
+            <CloseIcon className="close-icon"/>
           </button>
-        )}
-
-        <button className={`menu-button ${isOpen ? "" : "open"}`} onClick={toggleMenu} type="button">
-          <MenuIcon className="menu-icon"/>
-          <CloseIcon className="close-icon"/>
-        </button>
+        </div>
       </div>
     </header>
   )
 }
 
-export default Header
+export default Header;
