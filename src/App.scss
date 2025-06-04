@@ -1,3 +1,6 @@
+@import './styles/variables';
+@import './styles/mixins';
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,12 +8,13 @@
 }
 
 $template-colors: (
-  "primary": #0066cc,    // Яркий синий
-  "primary-light": #3399ff,  // Светлый синий
-  "primary-dark": #004c99,   // Темный синий
+  "primary": #1a1a2e,    // Основной темный
+  "primary-light": #16213e,  // Светлый оттенок основного
+  "primary-dark": #0f3460,   // Темный оттенок основного
+  "accent": #64ffda,     // Акцентный бирюзовый
+  "accent-light": #4fc3f7,  // Светлый акцентный
   "white": #ffffff,      // Белый
-  "white-light": #f8f9fa,    // Светло-белый
-  "accent": #00aaff,     // Акцентный голубой
+  "white-light": #b3c5d1,    // Светло-серый
   "success": #00cc66,    // Зеленый для успешных действий
   "warning": #ffcc00     // Желтый для предупреждений
 );
@@ -25,44 +29,11 @@ $grid-breakpoints: (
 );
 
 // ===== FONTS ===== //
-@font-face {
-  font-family: 'Cherry Bomb One';
-  src: url('./Resources/Fonts/CherryBombOne-Regular/CherryBombOne-Regular.eot');
-  src: url('./Resources/Fonts/CherryBombOne-Regular/CherryBombOne-Regular.eot?#iefix') format('embedded-opentype'),
-      url('./Resources/Fonts/CherryBombOne-Regular/CherryBombOne-Regular.woff2') format('woff2'),
-      url('./Resources/Fonts/CherryBombOne-Regular/CherryBombOne-Regular.woff') format('woff'),
-      url('./Resources/Fonts/CherryBombOne-Regular/CherryBombOne-Regular.ttf') format('truetype'),
-      url('./Resources/Fonts/CherryBombOne-Regular/CherryBombOne-Regular.svg#CherryBombOne-Regular') format('svg');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pacifico';
-  src: url('./Resources/Fonts/Pacifico-Regular/Pacifico-Regular.eot');
-  src: url('./Resources/Fonts/Pacifico-Regular/Pacifico-Regular.eot?#iefix') format('embedded-opentype'),
-      url('./Resources/Fonts/Pacifico-Regular/Pacifico-Regular.woff2') format('woff2'),
-      url('./Resources/Fonts/Pacifico-Regular/Pacifico-Regular.woff') format('woff'),
-      url('./Resources/Fonts/Pacifico-Regular/Pacifico-Regular.ttf') format('truetype'),
-      url('./Resources/Fonts/Pacifico-Regular/Pacifico-Regular.svg#Pacifico-Regular') format('svg');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-// ===== MIXIN ===== //
-@mixin flexCenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -74,20 +45,68 @@ body {
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
-  color: #333;
+  color: #b3c5d1;
 }
 
 main {
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  
+  &-primary {
+    background: linear-gradient(135deg, #64ffda 0%, #4fc3f7 100%);
+    color: #1a1a2e;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(100, 255, 218, 0.2);
+    }
+  }
+  
+  &-outline {
+    background: transparent;
+    border: 1px solid #64ffda;
+    color: #64ffda;
+    
+    &:hover {
+      background: rgba(100, 255, 218, 0.1);
+    }
+  }
+}
+
+.card {
+  @include glassEffect;
+  padding: 24px;
+  @include hoverEffect;
 }
 
 @media (max-width: 768px) {
   main {
-    padding: 100px 15px 15px;
+    padding: 80px 15px 15px;
+  }
+  
+  .container {
+    padding: 0 15px;
   }
 }
 

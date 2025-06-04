@@ -1,23 +1,81 @@
+@import "../../../../styles/mixins.scss";
+
 .banner-swiper {
-  width: 90vw;
+  width: 100%; /* Ширина на всю секцию */
+  max-width: 1200px; /* Ограничиваем максимальную ширину */
+  margin: 0 auto; /* Центрирование */
   display: flex;
   justify-content: center;
   align-items: center;
+  @include glassEffect(); /* Применяем эффект стекла */
+  background: rgba(255, 255, 255, 0.05); /* Новый фон */
+  border: 1px solid rgba(100, 255, 218, 0.2); /* Новая граница */
+  border-radius: 12px; /* Корректируем радиус */
+  overflow: hidden; /* Обрезаем содержимое по границам */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Тень */
+  transition: all 0.3s ease;
+
+  &:hover {
+      transform: translateY(-5px); /* Эффект при наведении */
+      box-shadow: 0 15px 40px rgba(100, 255, 218, 0.4); /* Усиленная тень при наведении */
+  }
 
   img {
-    height: 40vw;
-    width: 80vw;
+    width: 100%; /* Изображение занимает всю доступную ширину слайда */
+    height: auto; /* Высота автоматическая для сохранения пропорций */
+    display: block;
+    object-fit: cover; /* Обрезка изображения */
+  }
+
+  /* Стили для Swiper */
+  swiper-container {
+    width: 100%;
+    height: 100%;
+    padding: 20px; /* Внутренние отступы для swiper-контейнера */
+  }
+
+  swiper-slide {
     display: flex;
     justify-content: center;
     align-items: center;
-
+    border-radius: 8px; /* Скругление углов слайдов */
+    overflow: hidden; /* Обрезаем содержимое слайда */
   }
 
-  swiper-container {
-    swiper-slide {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  /* Навигация (стрелки) и пагинация (точки) Swiper */
+  .swiper-button-next, .swiper-button-prev {
+      color: #64ffda !important; /* Цвет стрелок */
+      filter: drop-shadow(0 0 5px rgba(100, 255, 218, 0.5));
+  }
+
+  .swiper-pagination-bullet {
+      background: rgba(179, 197, 209, 0.5) !important; /* Цвет неактивных точек */
+      opacity: 1 !important;
+  }
+
+  .swiper-pagination-bullet-active {
+      background: #64ffda !important; /* Цвет активной точки */
+      box-shadow: 0 0 8px rgba(100, 255, 218, 0.6); /* Тень активной точки */
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .banner-swiper {
+      padding: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+
+      &:hover {
+          transform: none;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      swiper-container {
+          padding: 10px;
+      }
+
+      .swiper-button-next, .swiper-button-prev {
+          transform: scale(0.8);
+      }
   }
 }

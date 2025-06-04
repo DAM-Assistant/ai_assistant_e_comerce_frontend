@@ -1,15 +1,16 @@
 /* CategoryMenu.scss - Обновленный без конфликтов */
 
 .category-menu {
-  background: rgba(20, 20, 20, 0.95);
+  @include glassEffect(); /* Применяем эффект стекла */
+  background: rgba(26, 26, 46, 0.95); /* Новый фон */
   backdrop-filter: blur(20px);
   border-radius: 20px;
   padding: 32px;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease; /* Упрощаем transition */
+  border: 1px solid rgba(100, 255, 218, 0.2); /* Новая граница */
   position: sticky;
-  top: 70px;
+  top: 100px; /* Корректируем позицию */
   width: 340px;
   min-width: 340px;
   max-width: 340px;
@@ -28,19 +29,19 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #ff6b6b, #ffa500, #ffeb3b, #4caf50, #2196f3, #9c27b0, #ff6b6b);
-  background-size: 400% 100%;
-  animation: gradientFlow 4s linear infinite;
+  background: linear-gradient(90deg, #64ffda, #4fc3f7); /* Новый градиент */
+  background-size: 200% 100%; /* Корректируем размер градиента */
+  animation: gradientFlow 4s linear infinite; /* Оставляем анимацию */
 }
 
 @keyframes gradientFlow {
   0% { background-position: 0% 50%; }
-  100% { background-position: 400% 50%; }
+  100% { background-position: 100% 50%; }
 }
 
 /* Заголовки */
 .category-menu h3 {
-  color: #ffffff;
+  color: #ffffff; /* Белый цвет текста */
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 20px;
@@ -58,47 +59,47 @@
   transform: translateY(-50%);
   width: 4px;
   height: 24px;
-  background: linear-gradient(135deg, #ff6b6b, #ffa500);
+  background: linear-gradient(135deg, #64ffda, #4fc3f7); /* Новый градиент */
   border-radius: 2px;
-  box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+  box-shadow: 0 0 10px rgba(100, 255, 218, 0.5); /* Новая тень */
 }
 
 /* Поисковая форма */
 .search-box {
   display: flex;
   gap: 12px;
-  margin-bottom: 40px;
+  margin-bottom: 30px; /* Немного уменьшаем отступ */
   position: relative;
 }
 
 .search-input {
   flex: 1;
   padding: 16px 20px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
+  border: 1px solid rgba(100, 255, 218, 0.2); /* Новая граница */
+  border-radius: 8px; /* Корректируем радиус */
   font-size: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05); /* Новый фон */
+  color: #b3c5d1; /* Светло-серый текст */
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #ff6b6b;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+  border-color: #64ffda; /* Новый цвет границы при фокусе */
+  background: rgba(100, 255, 218, 0.1); /* Новый фон при фокусе */
+  box-shadow: 0 0 15px rgba(100, 255, 218, 0.4); /* Новая тень при фокусе */
 }
 
 .search-input::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(179, 197, 209, 0.7); /* Светло-серый плейсхолдер */
 }
 
 .search-box button {
-  padding: 16px 20px;
-  background: linear-gradient(135deg, #ff6b6b, #ffa500);
+  padding: 10px 15px; /* Корректируем отступы */
+  background: linear-gradient(135deg, #64ffda 0%, #4fc3f7 100%); /* Новый градиент */
   border: none;
-  border-radius: 15px;
+  border-radius: 8px; /* Корректируем радиус */
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -126,7 +127,7 @@
 
 .search-box button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 10px 20px rgba(100, 255, 218, 0.3); /* Новая тень при ховере */
 }
 
 .search-box button:active {
@@ -137,7 +138,8 @@
 .category-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px; /* Уменьшаем отступ */
+  margin-bottom: 20px; /* Отступ снизу */
 }
 
 /* Кнопка "ВСЕ" */
@@ -145,16 +147,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px;
-  background: linear-gradient(135deg, #9c27b0, #673ab7);
-  color: white;
-  border-radius: 16px;
+  padding: 16px 20px; /* Корректируем отступы */
+  background: linear-gradient(135deg, #64ffda 0%, #4fc3f7 100%); /* Новый градиент */
+  color: #1a1a2e; /* Темный цвет текста */
+  border-radius: 8px; /* Корректируем радиус */
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-bottom: 20px;
+  margin-bottom: 12px; /* Уменьшаем отступ */
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: none; /* Убираем границу */
 }
 
 .category-all-button::before {
@@ -164,7 +166,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
   transition: left 0.6s;
 }
 
@@ -173,93 +175,88 @@
 }
 
 .category-all-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 20px 40px rgba(156, 39, 176, 0.4);
-  background: linear-gradient(135deg, #ad42c4, #7c4dff);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(100, 255, 218, 0.4); /* Новая тень */
+  background: linear-gradient(135deg, #4fc3f7, #64ffda); /* Меняем направление градиента при ховере */
 }
 
 .category-all-button h4 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-size: 1rem; /* Уменьшаем размер шрифта */
+  font-weight: 600; /* Корректируем толщину */
+  letter-spacing: 0.5px; /* Корректируем интервал */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Новая тень текста */
 }
 
 /* Dropdown категорий */
 .category-dropdown {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
+  @include glassEffect(); /* Применяем эффект стекла */
+  background: rgba(255, 255, 255, 0.05); /* Новый фон */
+  border-radius: 8px; /* Корректируем радиус */
   overflow: hidden;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(100, 255, 218, 0.2); /* Новая граница */
   backdrop-filter: blur(10px);
 }
 
 .category-dropdown:hover {
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1); /* Новый фон при ховере */
+  box-shadow: 0 8px 25px rgba(100, 255, 218, 0.2); /* Новая тень при ховере */
+  border-color: rgba(100, 255, 218, 0.3); /* Новая граница при ховере */
 }
 
 .select {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 24px;
+  padding: 12px 20px; /* Корректируем отступы */
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
 }
 
 .select:hover {
-  background: rgba(255, 107, 107, 0.1);
+  background: rgba(100, 255, 218, 0.1); /* Новый фон при ховере */
 }
 
 .select h4 {
-  color: #ffffff;
-  font-size: 1.1rem;
-  font-weight: 600;
+  color: #b3c5d1; /* Светло-серый текст */
+  font-size: 1rem; /* Уменьшаем размер шрифта */
+  font-weight: 500; /* Корректируем толщину */
   transition: color 0.3s ease;
 }
 
 .select:hover h4 {
-  color: #ff6b6b;
-  text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+  color: #64ffda; /* Акцентный цвет при ховере */
+  text-shadow: 0 0 8px rgba(100, 255, 218, 0.3); /* Новая тень текста */
 }
 
 /* Иконки */
 .icon {
-  width: 22px;
-  height: 22px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  fill: rgba(255, 255, 255, 0.7);
+  width: 20px; /* Корректируем размер */
+  height: 20px; /* Корректируем размер */
+  transition: all 0.3s ease; /* Упрощаем transition */
+  fill: rgba(179, 197, 209, 0.7); /* Цвет иконок */
 }
 
 .search-box .icon {
-  fill: white;
-  width: 20px;
-  height: 20px;
+  fill: #1a1a2e; /* Темный цвет иконки поиска */
+  width: 18px; /* Корректируем размер */
+  height: 18px; /* Корректируем размер */
 }
 
 .category-all-button .icon {
-  fill: white;
-  width: 24px;
-  height: 24px;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  fill: #1a1a2e; /* Темный цвет иконки кнопки "ВСЕ" */
+  width: 20px; /* Корректируем размер */
+  height: 20px; /* Корректируем размер */
+  filter: none; /* Убираем старую тень */
 }
 
 .select .icon {
-  fill: rgba(255, 255, 255, 0.7);
+  transform: rotate(0deg); /* Начальное состояние */
 }
 
-.select:hover .icon {
-  fill: #ff6b6b;
-  filter: drop-shadow(0 0 5px rgba(255, 107, 107, 0.5));
-}
-
-.select .icon.open {
-  transform: rotate(180deg);
-  fill: #ffa500;
+.select.open .icon {
+  transform: rotate(180deg); /* Поворот при открытом дропдауне */
 }
 
 /* Меню брендов */
@@ -448,4 +445,95 @@
 
 .menu::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #ff5252, #ff9800);
+}
+
+/* Стили для подкатегорий (если есть) */
+.subcategory-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 0;
+    border-top: 1px solid rgba(100, 255, 218, 0.1);
+    margin-top: 4px;
+}
+
+.subcategory-item {
+    padding: 8px 20px;
+    cursor: pointer;
+    color: #b3c5d1;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+        color: #64ffda;
+        background: rgba(100, 255, 218, 0.05);
+    }
+}
+
+/* Мобильная адаптация */
+@media (max-width: 992px) {
+    .category-menu {
+        padding: 20px;
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        position: static;
+        height: auto;
+        overflow-y: visible; /* Убираем скролл на мобильных */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Новая тень */
+        border: 1px solid rgba(100, 255, 218, 0.2);
+    }
+
+    .category-menu h3 {
+        font-size: 1.2rem;
+    }
+
+    .search-box {
+        flex-direction: row; /* Оставляем в строку на мобильных */
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .search-input {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+
+    .search-box button {
+        padding: 12px 15px;
+        min-width: 45px;
+    }
+
+    .category-all-button {
+        padding: 12px 15px;
+        margin-bottom: 8px;
+    }
+
+    .category-all-button h4 {
+        font-size: 0.9rem;
+    }
+
+    .select {
+        padding: 10px 15px;
+    }
+
+    .select h4 {
+        font-size: 0.9rem;
+    }
+
+    .icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .search-box .icon,
+    .category-all-button .icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .subcategory-item {
+        padding: 6px 15px;
+        font-size: 0.85rem;
+    }
 }

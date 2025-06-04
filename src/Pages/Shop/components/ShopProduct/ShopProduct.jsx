@@ -9,9 +9,14 @@ import { PreduContext } from "../../../../PreduContext"
 
 const ShopProduct = (props) => {
   let navigate = useNavigate();
-  const { id, name, brand, brand_id, category, category_id, description, image, stock_quantity, cost_per_unit } = props.data;
   const { cart, setCartProductQuantity } = useContext(PreduContext)
-  const [ quantity, setQuantity] = useState(cart[id])
+  const [ quantity, setQuantity] = useState(props.data ? cart[props.data.id] : 0)
+
+  if (!props.data) {
+    return null; // Return null if data is not yet available
+  }
+
+  const { id, name, brand, brand_id, category, category_id, description, image, stock_quantity, cost_per_unit } = props.data;
 
   const handleChange = event => {
     if (isNaN(event.target.value)) {
