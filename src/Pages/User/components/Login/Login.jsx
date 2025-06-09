@@ -11,9 +11,45 @@ const Login = () => {
   const [ username, setUsername ] = useState("")
   const [ password, setPassword ] = useState("")
   const [ isLoading, setIsLoading ] = useState(false)
+  const [ errors, setErrors ] = useState({
+    username: "",
+    password: "",
+    general: ""
+  })
+  const [ touched, setTouched ] = useState({
+    username: false,
+    password: false
+  })
 
   const { api_path, getAccessToken, setOnSignupPage, setCurrentUser, setAuthenticated, 
     categoryMenuStatus, changeCategoryMenuStatus, getOrderHistory, getUsedCoupons } = useContext(PreduContext)
+
+  const validateField = (name, value) => {
+    switch (name) {
+      case 'username':
+        return value.trim() === '' ? 'Имя пользователя обязательно' : ''
+      case 'password':
+        return value.trim() === '' ? 'Пароль обязателен' : ''
+      default:
+        return ''
+    }
+  }
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target
+    setTouched(prev => ({ ...prev, [name]: true }))
+    setErrors(prev => ({ ...prev, [name]: validateField(name, value) }))
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    if (name === 'username') setUsername(value)
+    if (name === 'password') setPassword(value)
+    
+    if (touched[name]) {
+      setErrors(prev => ({ ...prev, [name]: validateField(name, value) }))
+    }
+  }
 
   function toHome() {
     window.scrollTo(0, 0);
@@ -29,7 +65,26 @@ const Login = () => {
 
   async function handleLogin(e) {
     e.preventDefault();
+    
+    // Валидация всех полей перед отправкой
+    const usernameError = validateField('username', username)
+    const passwordError = validateField('password', password)
+    
+    if (usernameError || passwordError) {
+      setErrors({
+        username: usernameError,
+        password: passwordError,
+        general: ''
+      })
+      setTouched({
+        username: true,
+        password: true
+      })
+      return
+    }
+
     setIsLoading(true);
+    setErrors(prev => ({ ...prev, general: '' }))
     
     const newLogin = {
       username: username,
@@ -38,37 +93,23 @@ const Login = () => {
     
     const login_api_path = api_path + "/api/auth/login";
     const profile_api_path = api_path + "/api/auth/me";
-
-    console.log("Отправка запроса авторизации на:", login_api_path);
     
     try {
       const login_response = await axios.post(login_api_path, newLogin);
-      console.log("Ответ авторизации:", login_response);
 
-      // Проверяем наличие ответа и доступа к данным
       if (login_response && login_response.status === 200) {
-        // Проверяем наличие токена в ответе
         if (login_response.data && login_response.data.access_token) {
-          // Сохраняем токен
           const token = login_response.data.access_token;
           Cookies.set('access_token', token);
-          console.log("Токен сохранен в cookie");
           
           try {
-            // Получаем профиль пользователя
-            console.log("Запрос профиля пользователя:", profile_api_path);
             const accessToken = getAccessToken();
-            console.log("Используем токен для запроса профиля:", accessToken ? "Токен получен" : "Токен не найден");
-            
             const me_response = await axios.get(profile_api_path, {
               headers: {"Authorization": `Bearer ${accessToken}`}
             });
             
-            console.log("Ответ профиля:", me_response);
-            
             if (me_response && me_response.data) {
               const user = me_response.data;
-              // Маскируем пароль для безопасности
               const masked_password = password.length > 2 
                 ? password.slice(0, -2).replace(/./g, "*") + password.slice(-2) 
                 : "****";
@@ -87,47 +128,40 @@ const Login = () => {
                   getUsedCoupons();
                 } catch (historyError) {
                   console.error("Ошибка при получении истории:", historyError);
-                  // Можно продолжить даже при ошибке получения истории
                 }
                 
                 navigate('/Home');
               }
             } else {
-              console.error("Ответ профиля не содержит данных");
-              window.alert("Ошибка получения профиля пользователя");
+              setErrors(prev => ({ ...prev, general: "Ошибка получения профиля пользователя" }))
             }
           } catch (profileError) {
             console.error("Ошибка получения профиля:", profileError);
             
-            // Показываем пользователю сообщение об ошибке
-            if (profileError.response && profileError.response.data && profileError.response.data.detail) {
-              window.alert(profileError.response.data.detail);
+            if (profileError.response?.data?.detail) {
+              setErrors(prev => ({ ...prev, general: profileError.response.data.detail }))
             } else {
-              window.alert("Ошибка получения профиля пользователя");
+              setErrors(prev => ({ ...prev, general: "Ошибка получения профиля пользователя" }))
             }
             
-            // Несмотря на ошибку, считаем пользователя авторизованным
             setAuthenticated(true);
             navigate('/Home');
           }
         } else {
-          console.error("Ответ не содержит токен доступа:", login_response.data);
-          window.alert("Сервер вернул неверный формат ответа");
+          setErrors(prev => ({ ...prev, general: "Сервер вернул неверный формат ответа" }))
         }
       } else {
-        console.error("Неожиданный ответ:", login_response);
-        window.alert("Ошибка авторизации");
+        setErrors(prev => ({ ...prev, general: "Ошибка авторизации" }))
       }
     } catch (loginError) {
       console.error("Ошибка авторизации:", loginError);
       
-      // Показываем пользователю понятное сообщение об ошибке
-      if (loginError.response && loginError.response.data && loginError.response.data.detail) {
-        window.alert(loginError.response.data.detail);
+      if (loginError.response?.data?.detail) {
+        setErrors(prev => ({ ...prev, general: loginError.response.data.detail }))
       } else if (loginError.message === "Network Error") {
-        window.alert("Ошибка соединения с сервером. Проверьте подключение к интернету.");
+        setErrors(prev => ({ ...prev, general: "Ошибка соединения с сервером. Проверьте подключение к интернету." }))
       } else {
-        window.alert("Ошибка авторизации. Проверьте имя пользователя и пароль.");
+        setErrors(prev => ({ ...prev, general: "Ошибка авторизации. Проверьте имя пользователя и пароль." }))
       }
     } finally {
       setIsLoading(false);
@@ -147,8 +181,18 @@ const Login = () => {
               </tr>
               <tr>
                 <td>
-                  <input type="text" name="signin_username" id="signin_username" 
-                    onChange={(e)=>setUsername(e.target.value)} value={username}/>
+                  <input 
+                    type="text" 
+                    name="username" 
+                    id="signin_username" 
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={username}
+                    className={touched.username && errors.username ? 'error' : ''}
+                  />
+                  {touched.username && errors.username && (
+                    <div className="error-message">{errors.username}</div>
+                  )}
                 </td>
               </tr>
 
@@ -158,12 +202,26 @@ const Login = () => {
               </tr>
               <tr>
                 <td>
-                  <input type="password" name="signin_password" id="signin_password" 
-                    onChange={(e)=>setPassword(e.target.value)} value={password}/>
+                  <input 
+                    type="password" 
+                    name="password" 
+                    id="signin_password" 
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={password}
+                    className={touched.password && errors.password ? 'error' : ''}
+                  />
+                  {touched.password && errors.password && (
+                    <div className="error-message">{errors.password}</div>
+                  )}
                 </td>
               </tr>
             </tbody>
           </table>
+
+          {errors.general && (
+            <div className="error-message general">{errors.general}</div>
+          )}
 
           <button onClick={handleLogin} disabled={isLoading}>
             {isLoading ? "Выполняется вход..." : "Войти"}

@@ -1,0 +1,55 @@
+.login {
+  // ... existing code ...
+
+  .signin_form {
+    // ... existing code ...
+
+    input {
+      &.error {
+        border-color: #ff2d2d;
+        animation: shake 0.2s 2;
+        &:focus {
+          border-color: #ff2d2d;
+          box-shadow: 0 0 0 2px rgba(255, 45, 45, 0.2);
+        }
+      }
+    }
+
+    .error-message {
+      color: #2d0000;
+      background: #ffeaea;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 8px;
+      line-height: 1.7;
+      border-radius: 6px;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 12px rgba(255,45,45,0.12);
+      border: 2px solid #ff2d2d;
+      &::before {
+        content: "⚠️";
+        margin-right: 8px;
+        font-size: 20px;
+      }
+      &.general {
+        text-align: center;
+        margin: 14px 0;
+        padding: 12px;
+        background-color: #ffeaea;
+        border: 2px solid #ff2d2d;
+        border-radius: 8px;
+      }
+    }
+  }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+} 

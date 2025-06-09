@@ -16,6 +16,21 @@ const Order = () => {
   const [cvv, setCvv] = useState("")
   const [isProcessing, setIsProcessing] = useState(false)
 
+  // Новое: состояния ошибок и touched
+  const [errors, setErrors] = useState({
+    cardNumber: "",
+    cardName: "",
+    expiry: "",
+    cvv: "",
+    general: ""
+  })
+  const [touched, setTouched] = useState({
+    cardNumber: false,
+    cardName: false,
+    expiry: false,
+    cvv: false
+  })
+
   const [orderItems, setOrderItems] = useState([])
 
   useEffect(() => {
@@ -91,24 +106,56 @@ const Order = () => {
   const handleCardNumberChange = (e) => {
     const formattedValue = formatCardNumber(e.target.value);
     setCardNumber(formattedValue);
+    if (touched.cardNumber) {
+      setErrors(prev => ({ ...prev, cardNumber: validateCardNumber(formattedValue) }))
+    }
   };
 
   const handleCardNameChange = (e) => {
-    // Разрешаем только буквы и пробелы
     const cleanedValue = e.target.value.replace(/[^a-zA-Z\s]/g, '');
     setCardName(cleanedValue);
+    if (touched.cardName) {
+      setErrors(prev => ({ ...prev, cardName: validateCardName(cleanedValue) }))
+    }
   };
 
   const handleExpiryChange = (e) => {
     const formattedValue = formatExpiry(e.target.value);
     setExpiry(formattedValue);
+    if (touched.expiry) {
+      setErrors(prev => ({ ...prev, expiry: validateExpiry(formattedValue) }))
+    }
   };
 
   const handleCvvChange = (e) => {
-    // Разрешаем только цифры и ограничиваем до 3 символов
     const cleanedValue = e.target.value.replace(/[^0-9]/g, '').substring(0, 3);
     setCvv(cleanedValue);
+    if (touched.cvv) {
+      setErrors(prev => ({ ...prev, cvv: validateCvv(cleanedValue) }))
+    }
   };
+
+  // --- Blur обработчики для touched и ошибок ---
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }))
+    switch (name) {
+      case 'cardNumber':
+        setErrors(prev => ({ ...prev, cardNumber: validateCardNumber(cardNumber) }))
+        break;
+      case 'cardName':
+        setErrors(prev => ({ ...prev, cardName: validateCardName(cardName) }))
+        break;
+      case 'expiry':
+        setErrors(prev => ({ ...prev, expiry: validateExpiry(expiry) }))
+        break;
+      case 'cvv':
+        setErrors(prev => ({ ...prev, cvv: validateCvv(cvv) }))
+        break;
+      default:
+        break;
+    }
+  }
 
   // --- Валидация ---
 
@@ -169,30 +216,29 @@ const Order = () => {
     const expiryError = validateExpiry(expiry);
     const cvvError = validateCvv(cvv);
 
-    if (cardNumberError) {
-      alert(cardNumberError);
-      return;
-    }
-    if (cardNameError) {
-      alert(cardNameError);
-      return;
-    }
-    if (expiryError) {
-      alert(expiryError);
-      return;
-    }
-    if (cvvError) {
-      alert(cvvError);
+    setErrors({
+      cardNumber: cardNumberError,
+      cardName: cardNameError,
+      expiry: expiryError,
+      cvv: cvvError,
+      general: ""
+    })
+    setTouched({
+      cardNumber: true,
+      cardName: true,
+      expiry: true,
+      cvv: true
+    })
+
+    if (cardNumberError || cardNameError || expiryError || cvvError) {
       return;
     }
 
-    // Если валидация прошла успешно, выполняем симуляцию оплаты
     setIsProcessing(true);
     setTimeout(() => {
-      alert("Оплата прошла успешно! Спасибо за покупку!");
       setIsProcessing(false);
       //makeOrder(); // Можно вызвать makeOrder здесь для реального создания заказа
-       navigate("/User"); // Или перенаправить пользователя после успешной симуляции
+      navigate("/User"); // Или перенаправить пользователя после успешной симуляции
     }, 2000);
   };
 
@@ -205,36 +251,58 @@ const Order = () => {
             <div className="card-form">
               <input
                 type="text"
-                className="form-input"
+                className={`form-input${touched.cardNumber && errors.cardNumber ? ' error' : ''}`}
                 placeholder="Номер карты"
-                maxLength="19" // 16 цифр + 3 пробела
+                maxLength="19"
                 value={cardNumber}
+                name="cardNumber"
                 onChange={handleCardNumberChange}
+                onBlur={handleBlur}
               />
+              {touched.cardNumber && errors.cardNumber && (
+                <div className="error-message">{errors.cardNumber}</div>
+              )}
               <input
                 type="text"
-                className="form-input"
+                className={`form-input${touched.cardName && errors.cardName ? ' error' : ''}`}
                 placeholder="Имя на карте"
                 value={cardName}
+                name="cardName"
                 onChange={handleCardNameChange}
+                onBlur={handleBlur}
               />
+              {touched.cardName && errors.cardName && (
+                <div className="error-message">{errors.cardName}</div>
+              )}
               <div className="expiry-cvv">
                 <input
                   type="text"
-                  className="form-input"
+                  className={`form-input${touched.expiry && errors.expiry ? ' error' : ''}`}
                   placeholder="ММ/ГГ"
-                  maxLength="5" // ММ/ГГ
+                  maxLength="5"
                   value={expiry}
+                  name="expiry"
                   onChange={handleExpiryChange}
+                  onBlur={handleBlur}
                 />
                 <input
                   type="text"
-                  className="form-input"
+                  className={`form-input${touched.cvv && errors.cvv ? ' error' : ''}`}
                   placeholder="CVV"
-                  maxLength="3" // 3 цифры
+                  maxLength="3"
                   value={cvv}
+                  name="cvv"
                   onChange={handleCvvChange}
+                  onBlur={handleBlur}
                 />
+              </div>
+              <div style={{ display: 'flex', gap: '16px' }}>
+                {touched.expiry && errors.expiry && (
+                  <div className="error-message" style={{ flex: 1 }}>{errors.expiry}</div>
+                )}
+                {touched.cvv && errors.cvv && (
+                  <div className="error-message" style={{ flex: 1 }}>{errors.cvv}</div>
+                )}
               </div>
               <button
                 className={`pay-btn ${isProcessing ? 'processing' : ''}`}
