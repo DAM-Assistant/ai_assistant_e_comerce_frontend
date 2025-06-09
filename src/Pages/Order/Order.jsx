@@ -60,18 +60,34 @@ const Order = () => {
 
     try {
       const response = await axios.post(order_api, newOrder, {headers: {"Authorization" : `Bearer ${getAccessToken()}`}})
-      if (response.status === 200) {
-        setNewOrderId(response.data.order_id)
+      if (response.status === 200 && response.data.message && response.data.message.order_id) {
+        setNewOrderId(response.data.message.order_id)
         setOrderSuccessModal(true)
+      } else {
+        setErrors(prev => ({ ...prev, general: "Ошибка: сервер не вернул номер заказа. Попробуйте ещё раз." }))
       }
     } catch(e) {
-      window.alert(e.response.data.detail)
+      let msg = "Ошибка оформления заказа";
+      if (e.response && e.response.data) {
+        if (typeof e.response.data.detail === 'string') {
+          msg = e.response.data.detail;
+        } else if (typeof e.response.data.detail === 'object') {
+          msg = JSON.stringify(e.response.data.detail);
+        } else {
+          msg = JSON.stringify(e.response.data);
+        }
+      }
+      setErrors(prev => ({ ...prev, general: msg }))
     }
   }
 
   const closeModal = async() => {
     reset()
     setOrderSuccessModal(false)
+    if (!newOrderId) {
+      setErrors(prev => ({ ...prev, general: "Ошибка: номер заказа не найден. Детали заказа недоступны." }))
+      return;
+    }
     try {
       const order_api = api_path + "/api/orders/" + String(newOrderId)
       const order_response = await axios.get(order_api, {headers: {"Authorization" : `Bearer ${getAccessToken()}`}})
@@ -81,7 +97,17 @@ const Order = () => {
         }
       })
     }catch(e){
-      window.alert(e.response.data.detail)
+      let msg = "Ошибка получения заказа";
+      if (e.response && e.response.data) {
+        if (typeof e.response.data.detail === 'string') {
+          msg = e.response.data.detail;
+        } else if (typeof e.response.data.detail === 'object') {
+          msg = JSON.stringify(e.response.data.detail);
+        } else {
+          msg = JSON.stringify(e.response.data);
+        }
+      }
+      setErrors(prev => ({ ...prev, general: msg }))
     }
   }
 
@@ -235,11 +261,10 @@ const Order = () => {
     }
 
     setIsProcessing(true);
-    setTimeout(() => {
+    // После успешной валидации вызываем makeOrder
+    makeOrder().finally(() => {
       setIsProcessing(false);
-      //makeOrder(); // Можно вызвать makeOrder здесь для реального создания заказа
-      navigate("/User"); // Или перенаправить пользователя после успешной симуляции
-    }, 2000);
+    });
   };
 
   return (
@@ -304,6 +329,9 @@ const Order = () => {
                   <div className="error-message" style={{ flex: 1 }}>{errors.cvv}</div>
                 )}
               </div>
+              {errors.general && (
+                <div className="error-message general">{errors.general}</div>
+              )}
               <button
                 className={`pay-btn ${isProcessing ? 'processing' : ''}`}
                 onClick={handlePayment}

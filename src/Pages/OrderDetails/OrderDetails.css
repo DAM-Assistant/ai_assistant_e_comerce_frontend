@@ -1,3 +1,139 @@
 .order-details {
-    padding-top: 100px; /* Добавляем верхний отступ для учета фиксированного хедера */
-} 
+    padding-top: 100px;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    background: #191a2a;
+}
+
+.order-details .container {
+    background: #23243a;
+    box-shadow: none;
+    padding: 40px 32px 32px 32px;
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
+    border: 2px solid #1de9b6;
+}
+
+.order-details h1 {
+    font-size: 2.1rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.order-details h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 24px 0 10px 0;
+    color: #1de9b6;
+    border-left: 4px solid #1de9b6;
+    padding-left: 10px;
+    background: none;
+}
+
+.order-details table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 18px;
+    background: none;
+}
+
+.order-details th, .order-details td {
+    padding: 8px 6px;
+    text-align: left;
+    font-size: 1rem;
+    color: #e0f7fa;
+    background: none;
+    border: none;
+}
+
+.order-details th {
+    color: #1de9b6;
+    font-weight: 600;
+    background: none;
+}
+
+.order-details .order-info th, .order-details .order-info td {
+    border: 1px solid #263238;
+}
+
+.order-details .order-info th {
+    background: #23243a;
+}
+
+.order-details .order-info .total-left, .order-details .order-info .total-right {
+    font-weight: 700;
+    background: #23243a;
+    color: #1de9b6;
+}
+
+.order-details .final {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #23243a;
+    border: none;
+    padding: 16px 20px;
+    margin: 24px 0 12px 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1de9b6;
+}
+
+.order-details .seperator {
+    border-bottom: 2px solid #1de9b6;
+    margin: 18px 0;
+}
+
+.order-details .status.processing {
+    color: #ffb300;
+    font-weight: 700;
+}
+.order-details .status.completed {
+    color: #1de9b6;
+    font-weight: 700;
+}
+.order-details .status.canceled {
+    color: #f44336;
+    font-weight: 700;
+}
+
+.order-details .cancel-btn, .order-details .back-btn {
+    margin-top: 18px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.order-details .cancel-btn {
+    background: #f44336;
+    color: #fff;
+    margin-right: 12px;
+}
+.order-details .cancel-btn:hover {
+    background: #d32f2f;
+}
+.order-details .back-btn {
+    background: #1de9b6;
+    color: #23243a;
+}
+.order-details .back-btn:hover {
+    background: #00bfa3;
+}
+
+@media (max-width: 600px) {
+    .order-details .container {
+        padding: 18px 4px 18px 4px;
+        max-width: 100vw;
+    }
+    .order-details {
+        padding-top: 60px;
+    }
+}
