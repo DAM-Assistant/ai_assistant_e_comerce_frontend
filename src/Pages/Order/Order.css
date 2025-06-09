@@ -254,4 +254,26 @@
     .expiry-cvv {
         grid-template-columns: 1fr; /* Одна колонка для даты и CVV на мобильных */
     }
+}
+
+.error-message {
+  color: #2d0000;
+  background: #ffeaea;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 8px;
+  line-height: 1.7;
+  border-radius: 6px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 12px rgba(255,45,45,0.12);
+  border: 2px solid #ff2d2d;
+}
+
+.error-message::before {
+  content: "⚠️";
+  margin-right: 8px;
+  font-size: 20px;
 } 
