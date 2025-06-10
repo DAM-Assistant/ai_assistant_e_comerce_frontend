@@ -6,7 +6,7 @@ export const PreduContext = createContext(null);
 
 export const PreduContextProvider = (props) => {
 
-  const api_path = process.env.REACT_APP_API_URL
+  const api_path = process.env.REACT_APP_API_URL.replace(/\/+$/, '')
 
   const [authenticated, setAuthenticated] = useState(false)
   const [onSignupPage, setOnSignupPage] = useState(false)
