@@ -10,13 +10,15 @@
   flex-direction: column;
   gap: 30px;
   @include glassEffect();
-  background: rgba(26, 26, 46, 0.9);
+  background: rgba(26, 26, 46, 0.95);
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  border: 1px solid rgba(100, 255, 218, 0.2);
+  box-shadow: 0 10px 30px rgba(100, 255, 218, 0.08);
+  border: 1px solid rgba(100, 255, 218, 0.15);
   position: relative;
   overflow: hidden;
   min-height: 600px;
+  padding-top: 48px;
 }
 
 .shop-list::before {

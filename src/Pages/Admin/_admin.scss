@@ -6,83 +6,125 @@
 @import './components/AdminOrderDetails/admin_order_details';
 
 .admin {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding-top: calc(100px + 0.390625vw);
-  padding-bottom: 20px;
+  align-items: flex-start;
+  padding-top: 120px;
+  padding-bottom: 40px;
+  color: #e2e8f0;
 
   .container {
     display: flex;
+    flex-direction: row;
     justify-content: space-around;
-    align-items: center;
-    gap: calc(10px + 1vw);
+    align-items: flex-start;
+    gap: 40px;
     width: 90%;
-    background-color: rgba(black, 0.5);
-    border-radius: 10px;
-    border: 2px solid rgb(255, 255, 255, 0.7);
-    border-right: 2px solid rgb(255, 255, 255, 0.4);
-    border-bottom: 2px solid rgb(255, 255, 255, 0.4);
-    box-shadow: 0 5px 45px rgba(0,0,0,0.1);
-    padding: 30px;
+    background: rgba(30, 41, 59, 0.7);
+    border-radius: 24px;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    padding: 40px 32px;
+    backdrop-filter: blur(16px);
+    animation: fadeInUp 0.7s cubic-bezier(.4,2,.3,1);
   }
 
   .container1 {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    gap: 32px;
+    
     .user-icon {
-      fill: orange;
-      height: calc(150px + 3vw);
-      width: calc(150px + 3vw);
+      fill: #38bdf8;
+      height: 120px;
+      width: 120px;
+      filter: drop-shadow(0 4px 24px rgba(56, 189, 248, 0.3));
+      margin-bottom: 12px;
     }
 
     .table-container {
+      width: 100%;
+      background: rgba(51, 65, 85, 0.3);
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(148, 163, 184, 0.1);
+      padding: 24px;
+      backdrop-filter: blur(8px);
+
       table {
-        color: white;
-        font-size: calc(14px + 0.390625vw);
-        border-collapse: collapse;
+        width: 100%;
+        color: #e2e8f0;
+        font-size: 1.1rem;
+        border-collapse: separate;
+        border-spacing: 0 12px;
 
         th, td {
           text-align: left;
-          padding: 5px 10px;
+          padding: 12px 16px;
+        }
+
+        th {
+          color: #38bdf8;
+          font-weight: 600;
+          font-size: 1rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
 
         .edit-btn {
           border: none;
           outline: none;
-          border-radius: 10px;
-          width: 30px;
-          height: 30px;
+          border-radius: 12px;
+          width: 40px;
+          height: 40px;
           cursor: pointer;
-          background-color: rgb(0, 168, 0);
+          background: linear-gradient(135deg, #38bdf8, #818cf8);
+          transition: all 0.3s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
-          &:hover {
-            background-color: green;
-          }
           .icon {
-            fill: white;
+            fill: #0f172a;
             width: 20px;
             height: 20px;
+            transition: all 0.3s;
+          }
+
+          &:hover {
+            background: linear-gradient(135deg, #818cf8, #38bdf8);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+
+            .icon {
+              fill: #ffffff;
+            }
           }
         }
       }
     }
 
     .logout-btn {
-      margin-top: calc(20px + 1vw);
-      padding: calc(5px + 0.5vw) calc(10px + 1vw);
+      margin-top: 24px;
+      padding: 14px 36px;
       border: none;
-      border-radius: 5px;
-      outline: none;
-      color: white;
-      background-color: rgb(210, 0, 0);
+      border-radius: 12px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #f43f5e, #f97316);
       cursor: pointer;
-      font-size: calc(15px + 0.390625vw);
+      font-size: 1.1rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(244, 63, 94, 0.2);
+      transition: all 0.3s;
 
       &:hover {
-        background-color: rgb(168, 0, 0);
+        background: linear-gradient(135deg, #f97316, #f43f5e);
+        transform: scale(1.05);
+        box-shadow: 0 6px 16px rgba(244, 63, 94, 0.3);
       }
     }
   }
@@ -90,83 +132,12 @@
   .container2 {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
-
-    table {
-      font-size: calc(14px + 0.390625vw);
-      width: 100%;
-
-      th, td {
-        text-align: left;
-        color: white;
-        padding: 5px 10px;
-
-        span.color-name {
-          color: orange;
-        }
-
-        .content-wrapper {
-          display: flex;
-          justify-content: left;
-          align-items: center;
-
-          .icon {
-            fill: orange;
-            width: 30px;
-            height: 30px;
-          }
-        }
-
-        input {
-          width: 100%;
-          padding: 5px 10px;
-          border-radius: 5px;
-          border: none;
-          outline: none;
-          font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-          font-size: calc(12px + 0.390625vw);
-          &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-          }
-        }
-
-        textarea {
-          width: 100%;
-          resize: none;
-          padding: 5px 10px;
-          border-radius: 5px;
-          font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-          font-size: calc(12px + 0.390625vw);
-          outline: none;
-        }
-
-        .update-btn {
-          padding: calc(5px + 0.5vw) calc(10px + 1vw);
-          border: none;
-          outline: none;
-          border-radius: 5px;
-          background-color: rgb(0, 168, 0);
-          color: white;
-          cursor: pointer;
-          font-size: calc(16px + 0.390625vw);
-          width: 200px;
-          height: 50px;
-
-          &:hover {
-            background-color: green;
-          }
-        }
-      }
-
-      td.update-btn-container {
-        text-align: center;
-      }
-    }
   }
 
-  .modal {
+  // Модальные окна
+  .modal, .update-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -175,7 +146,8 @@
     z-index: 100000;
 
     .overlay {
-      background-color: rgba(black, 0.5);
+      background-color: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
       width: 100%;
       height: 100%;
     }
@@ -185,117 +157,115 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: rgb(255, 220, 155);
-      width: 350px;
-      border-radius: 10px;
-      padding: 10px;
-      gap: 10px;
-
-      display: flex;
-      flex-direction: column;
-      
-      h2 {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        font-size: calc(14px + 0.390625vw);
-        color: rgb(213, 139, 0);
-      }
-
-      h1 {
-        font-size: calc(20px + 0.390625vw);
-      }
-
-      .buttons {
-        display: flex;
-        gap: 10px;
-
-        .ok-btn {
-          color: white;
-          background-color: rgb(0, 149, 255);
-          padding: 5px 10px 5px 10px;
-          font-size: calc(12px + 0.390625vw);
-          font-weight: 500;
-          border-radius: 5px;
-          cursor: pointer;
-          border: 2px solid rgb(46, 168, 255)
-        }
-      }
-    }
-  }
-
-  .update-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 100000;
-
-    .overlay {
-      background-color: rgba(black, 0.5);
-      width: 100%;
-      height: 100%;
-    }
-
-    .modal-content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: linear-gradient(315deg, rgb(250, 48, 82), rgb(224, 165, 0));
-      border-radius: 10px;
-      padding: 20px;
+      background: rgba(30, 41, 59, 0.95);
+      border-radius: 24px;
+      padding: 40px 32px;
+      min-width: 360px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 30px;
+      gap: 24px;
+      border: 1px solid rgba(148, 163, 184, 0.1);
+      backdrop-filter: blur(16px);
+
+      h2, h1 {
+        color: #38bdf8;
+        font-family: 'Inter', sans-serif;
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
 
       .modal-icon {
-        height: calc(50px + 2vw);
-        width: calc(50px + 2vw);
+        height: 64px;
+        width: 64px;
+        margin-bottom: 16px;
+        fill: #38bdf8;
+        filter: drop-shadow(0 4px 12px rgba(56, 189, 248, 0.3));
       }
+
       form {
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly;
-        align-items: left;
-        gap: 5px;
-        font-size: calc(12px + 0.390625vw);
-        font-weight: 600;
+        gap: 16px;
+        width: 100%;
+
+        label {
+          color: #94a3b8;
+          font-size: 1rem;
+          font-weight: 500;
+        }
 
         input {
-          width: 200px;
-          padding: 5px 10px;
-          border-radius: 5px;
-          border: none;
-          outline: none;
-          font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-          font-size: calc(10px + 0.390625vw);
+          background: rgba(51, 65, 85, 0.3);
+          border: 1px solid rgba(148, 163, 184, 0.2);
+          border-radius: 12px;
+          padding: 12px 16px;
+          color: #e2e8f0;
+          font-size: 1rem;
+          transition: all 0.3s;
+
+          &:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+          }
+
+          &::placeholder {
+            color: #64748b;
+          }
         }
       }
 
       .modal-update-btn {
-        padding: calc(5px + 0.5vw) calc(10px + 1vw);
+        padding: 14px 32px;
         border: none;
-        outline: none;
-        border-radius: 5px;
-        background-color: rgb(0, 168, 0);
-        color: white;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #38bdf8, #818cf8);
+        color: #0f172a;
         cursor: pointer;
-        font-size: calc(12px + 0.390625vw);
-        font-weight: bold;
+        font-size: 1.1rem;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+        transition: all 0.3s;
 
         &:hover {
-          background-color: green;
+          background: linear-gradient(135deg, #818cf8, #38bdf8);
+          transform: scale(1.05);
+          box-shadow: 0 6px 16px rgba(56, 189, 248, 0.3);
         }
       }
     }
   }
 }
 
-@media (max-width: 699.98px) {
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 991px) {
   .admin {
     .container {
       flex-direction: column;
+      gap: 32px;
+      padding: 32px 24px;
+    }
+
+    .container1 {
+      gap: 24px;
+
+      .user-icon {
+        height: 96px;
+        width: 96px;
+      }
     }
   }
 }

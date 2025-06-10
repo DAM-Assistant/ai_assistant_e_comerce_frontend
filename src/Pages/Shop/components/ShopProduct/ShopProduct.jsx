@@ -87,13 +87,11 @@ const ShopProduct = (props) => {
       </div>
       
       <div className="buttons">
-        <button className="product-detail-button" onClick={toProductDetails}>
-          <InfoIcon className="icon"/> 
-          <h3><b>Подробнее</b></h3>
+        <button className="product-detail-button" onClick={toProductDetails} title="Подробнее">
+          <InfoIcon className="icon"/>
         </button>
-        <button className="add-cart-button" onClick={() => {setCartProductQuantity(id, quantity)}}>
+        <button className="add-cart-button" onClick={() => {setCartProductQuantity(id, quantity)}} title="В корзину">
           <AddCartIcon className="icon"/>
-          <h3><b>В корзину</b></h3>
         </button>
       </div>
     </div>

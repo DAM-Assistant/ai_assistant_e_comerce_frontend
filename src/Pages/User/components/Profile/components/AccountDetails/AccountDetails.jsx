@@ -2,13 +2,14 @@ import React, { useContext, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 
-
 import { PreduContext } from "../../../../../../PreduContext";
 import { ReactComponent as UserIcon } from '../../../../../../Resources/Icons/person_fill.svg'
 import { ReactComponent as PhoneIcon } from '../../../../../../Resources/Icons/phone.svg'
 import { ReactComponent as MailIcon } from '../../../../../../Resources/Icons/mail.svg'
 import { ReactComponent as PinIcon } from '../../../../../../Resources/Icons/pin_drop.svg'
 import { ReactComponent as EditIcon } from '../../../../../../Resources/Icons/edit.svg'
+import { ReactComponent as PersonIcon } from '../../../../../../Resources/Icons/person_fill.svg'
+import { ReactComponent as LockIcon } from '../../../../../../Resources/Icons/lock_fill.svg'
 
 const AccountDetails = () => {
 
@@ -126,113 +127,98 @@ const AccountDetails = () => {
   }
 
   return (
-    <div className="account-details"> 
-      <div className="container1">
-        <UserIcon className="user-icon"/>
-        
-        <div className="table-container">
-          <table>
-            <tbody>
-              <tr>
-                <th>Имя пользователя</th>
-                <th>:</th>
-                <td>{currentUser.username}</td>
-                <td>
-                  <button className="edit-btn" onClick={()=>{setUpdateUsernameModal(true)}}>
-                    <EditIcon className="icon"/>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <th>Пароль</th>
-                <th>:</th>
-                <td>{currentUser.password}</td>
-                <td>
-                  <button className="edit-btn">
-                    <EditIcon className="icon" onClick={()=>{setUpdatePasswordModal(true)}}/>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+    <div className="account-details">
+      <div className="profile-card">
+        <div className="profile-header">
+          <UserIcon className="user-icon"/>
+          <div className="username-section">
+            <div className="username-row">
+              <PersonIcon className="field-icon"/>
+              <span className="username">{currentUser.username}</span>
+              <button className="edit-btn" onClick={() => setUpdateUsernameModal(true)}>
+                <EditIcon className="icon"/>
+              </button>
+            </div>
+            <div className="password-row">
+              <LockIcon className="field-icon"/>
+              <span className="password">{currentUser.password}</span>
+              <button className="edit-btn" onClick={() => setUpdatePasswordModal(true)}>
+                <EditIcon className="icon"/>
+              </button>
+            </div>
+          </div>
         </div>
 
-        <button className="logout-btn" onClick={logout}>Выйти</button>
-      </div>
+        <div className="profile-fields">
+          <div className="field-group">
+            <div className="field">
+              <PersonIcon className="field-icon"/>
+              <input 
+                type="text" 
+                value={firstname}
+                placeholder={currentUser.firstname} 
+                onChange={(e) => setFirstname(e.target.value)}
+              />
+            </div>
+            <div className="field">
+              <PersonIcon className="field-icon"/>
+              <input 
+                type="text" 
+                value={lastname}
+                placeholder={currentUser.lastname} 
+                onChange={(e) => setLastname(e.target.value)}
+              />
+            </div>
+          </div>
 
-      <div className="container2">
-        <table>
-          <tbody>
-            <tr>
-              <th><span className="color-name">Имя</span></th>
-              <th><span className="color-name">Фамилия</span></th>
-            </tr>
-            <tr>
-              <td>
-                <input type="text" className="profile-firstname" value={firstname}
-                placeholder={currentUser.firstname} onChange={(e)=>setFirstname(e.target.value)}/>
-              </td>
-              <td>
-                <input type="text" className="profile-lastname" value={lastname}
-                  placeholder={currentUser.lastname} onChange={(e)=>setLastname(e.target.value)}/>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <div className="content-wrapper">
-                  <PhoneIcon className="icon" />
-                  <span className="text">Телефон</span>
-                </div>
-              </th>
-              <th>
-                <div className="content-wrapper">
-                  <MailIcon className="icon" />
-                  <span className="text">Email</span>
-                </div>
-              </th>
-            </tr>
-            <tr>
-              <td>
-                <input type="number" className="profile-phone" value={phone} maxLength={10} onWheel={(e) => e.target.blur()}
-                placeholder={currentUser.phone} onChange={handleInputPhone}/>
-              </td>
-              <td>
-                <input type="email" className="profile-email" value={email}
-                placeholder={currentUser.email} onChange={(e)=>setEmail(e.target.value)}/>
-              </td>
-            </tr>
-            <tr>
-              <th colSpan={2}>
-                <div className="content-wrapper">
-                  <PinIcon className="icon" />
-                  <span className="text">Адрес</span>
-                </div>
-              </th>
-            </tr>
-            <tr>
-              <td colSpan={2}>
-                <textarea className="profile-location" value={location} 
-                placeholder={currentUser.location} onChange={(e)=>setLocation(e.target.value)}/>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={2} className="update-btn-container">
-                <button className="update-btn" onClick={updateProfile}>Обновить</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+          <div className="field-group">
+            <div className="field">
+              <PhoneIcon className="field-icon"/>
+              <input 
+                type="number" 
+                value={phone}
+                maxLength={10}
+                onWheel={(e) => e.target.blur()}
+                placeholder={currentUser.phone}
+                onChange={handleInputPhone}
+              />
+            </div>
+            <div className="field">
+              <MailIcon className="field-icon"/>
+              <input 
+                type="email" 
+                value={email}
+                placeholder={currentUser.email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="field">
+            <PinIcon className="field-icon"/>
+            <textarea 
+              value={location}
+              placeholder={currentUser.location}
+              onChange={(e) => setLocation(e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="profile-actions">
+          <button className="update-btn" onClick={updateProfile}>Обновить</button>
+          <button className="logout-btn" onClick={logout}>Выйти</button>
+        </div>
       </div>
 
       {emptyInputModal && (
         <div className="modal">
-          <div className="overlay" onClick={()=>{setEmptyInputModal(false)}}></div>
+          <div className="overlay" onClick={() => setEmptyInputModal(false)}></div>
           <div className="modal-content">
             <h2>Сообщение</h2>
             <h1>Пустые поля</h1>
             <p>Пожалуйста, заполните все поля для обновления.</p>
             <div className="buttons">
-              <button className="ok-btn" onClick={()=>{setEmptyInputModal(false)}}>ОК</button>
+              <button className="ok-btn" onClick={() => setEmptyInputModal(false)}>ОК</button>
             </div>
           </div>
         </div>
@@ -240,13 +226,13 @@ const AccountDetails = () => {
 
       {updateSuccessModal && (
         <div className="modal">
-          <div className="overlay" onClick={()=>{setUpdateSuccessModal(false)}}></div>
+          <div className="overlay" onClick={() => setUpdateSuccessModal(false)}></div>
           <div className="modal-content">
             <h2>Сообщение</h2>
             <h1>Успешно</h1>
             <p>Профиль обновлен</p>
             <div className="buttons">
-              <button className="ok-btn" onClick={()=>{setUpdateSuccessModal(false)}}>ОК</button>
+              <button className="ok-btn" onClick={() => setUpdateSuccessModal(false)}>ОК</button>
             </div>
           </div>
         </div>
@@ -258,11 +244,26 @@ const AccountDetails = () => {
           <div className="modal-content">
             <UserIcon className="modal-icon"/>
             <form>
-              <label htmlFor="new-username">Новое имя пользователя</label>
-              <input type="text" id="new-username" value={newUsername} onChange={(e)=>setNewUsername(e.target.value)}
-              placeholder={currentUser.username}/>
-              <label htmlFor="password">Пароль</label>
-              <input type="text" id="password" value={currentPassword} onChange={(e)=>setCurrentPassword(e.target.value)}/>
+              <div className="field">
+                <PersonIcon className="field-icon"/>
+                <input 
+                  type="text" 
+                  id="new-username" 
+                  value={newUsername}
+                  onChange={(e) => setNewUsername(e.target.value)}
+                  placeholder={currentUser.username}
+                />
+              </div>
+              <div className="field">
+                <LockIcon className="field-icon"/>
+                <input 
+                  type="password" 
+                  id="password" 
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  placeholder="Текущий пароль"
+                />
+              </div>
             </form>
             <button className="modal-update-btn" onClick={updateUsername}>Обновить</button>
           </div>
@@ -275,12 +276,36 @@ const AccountDetails = () => {
           <div className="modal-content">
             <UserIcon className="modal-icon"/>
             <form>
-              <label htmlFor="current-password">Текущий пароль</label>
-              <input type="password" id="current-password" value={currentPassword} onChange={(e)=>setCurrentPassword(e.target.value)}/>
-              <label htmlFor="new-password">Новый пароль</label>
-              <input type="password" id="new-password" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)}/>
-              <label htmlFor="confirm-password">Подтвердите пароль</label>
-              <input type="password" id="confirm-password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}/>
+              <div className="field">
+                <LockIcon className="field-icon"/>
+                <input 
+                  type="password" 
+                  id="current-password" 
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  placeholder="Текущий пароль"
+                />
+              </div>
+              <div className="field">
+                <LockIcon className="field-icon"/>
+                <input 
+                  type="password" 
+                  id="new-password" 
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Новый пароль"
+                />
+              </div>
+              <div className="field">
+                <LockIcon className="field-icon"/>
+                <input 
+                  type="password" 
+                  id="confirm-password" 
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Подтвердите пароль"
+                />
+              </div>
             </form>
             <button className="modal-update-btn" onClick={updatePassword}>Обновить</button>
           </div>
