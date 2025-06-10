@@ -4,6 +4,11 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import Cookies from "js-cookie"
 import './Signup.scss';
+import { ReactComponent as UserIcon } from '../../../../Resources/Icons/person_fill.svg';
+import { ReactComponent as LockIcon } from '../../../../Resources/Icons/lock_fill.svg';
+import { ReactComponent as MailIcon } from '../../../../Resources/Icons/mail.svg';
+import { ReactComponent as PhoneIcon } from '../../../../Resources/Icons/phone.svg';
+import { ReactComponent as PinIcon } from '../../../../Resources/Icons/pin_drop.svg';
 
 const Signup = () => {
   const { setOnSignupPage, api_path, getAccessToken, setCurrentUser, setAuthenticated } = useContext(PreduContext)
@@ -178,199 +183,148 @@ const Signup = () => {
   
   return (
     <main className="signup">
-      <div className="container">
-        <h1 onClick={toHome}>DAM</h1>
-
-        <form className="signup_form">
-          <table className="name">
-            <tbody>
-              <tr>
-                <td colSpan={2}>
-                  <div className="separator">
-                    <h2>ДАННЫЕ АККАУНТА</h2>
-                    <div className="line"></div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th><label htmlFor="signup_firstname">Имя:</label></th>
-                <th><label htmlFor="signup_lastname">Фамилия:</label></th>
-              </tr>
-              <tr>
-                <td>
-                  <input 
-                    type="text" 
-                    name="firstname" 
-                    id="signup_firstname" 
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={formData.firstname}
-                    className={touched.firstname && errors.firstname ? 'error' : ''}
-                  />
-                  {touched.firstname && errors.firstname && (
-                    <div className="error-message">{errors.firstname}</div>
-                  )}
-                </td>
-                <td>
-                  <input 
-                    type="text" 
-                    name="lastname" 
-                    id="signup_lastname"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={formData.lastname}
-                    className={touched.lastname && errors.lastname ? 'error' : ''}
-                  />
-                  {touched.lastname && errors.lastname && (
-                    <div className="error-message">{errors.lastname}</div>
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <th><label htmlFor="signup_username">Имя пользователя</label></th>
-              </tr>
-              <tr>
-                <td colSpan={2}>
-                  <input 
-                    type="text" 
-                    name="username" 
-                    id="signup_username" 
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={formData.username}
-                    className={touched.username && errors.username ? 'error' : ''}
-                  />
-                  {touched.username && errors.username && (
-                    <div className="error-message">{errors.username}</div>
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <th><label htmlFor="signup_password">Пароль</label></th>
-              </tr>
-              <tr>
-                <td colSpan={2}>
-                  <input 
-                    type="password" 
-                    name="password" 
-                    id="signup_password" 
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={formData.password}
-                    className={touched.password && errors.password ? 'error' : ''}
-                  />
-                  {touched.password && errors.password && (
-                    <div className="error-message">{errors.password}</div>
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <th colSpan={2}><label htmlFor="signup_confirm_password">Подтвердите пароль</label></th>
-              </tr>
-              <tr>
-                <td colSpan={2}>
-                  <input 
-                    type="password" 
-                    name="confirm_password" 
-                    id="signup_confirm_password" 
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={formData.confirm_password}
-                    className={touched.confirm_password && errors.confirm_password ? 'error' : ''}
-                  />
-                  {touched.confirm_password && errors.confirm_password && (
-                    <div className="error-message">{errors.confirm_password}</div>
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan={2}>
-                  <div className="separator">
-                    <h2>КОНТАКТНАЯ ИНФОРМАЦИЯ</h2>
-                    <div className="line"></div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th><label htmlFor="signup_phone">Телефон</label></th>
-                <th><label htmlFor="signup_email">Email</label></th>
-              </tr>
-              <tr>
-                <td>
-                  <input 
-                    type="tel" 
-                    name="phone" 
-                    id="signup_phone" 
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={formData.phone}
-                    className={touched.phone && errors.phone ? 'error' : ''}
-                  />
-                  {touched.phone && errors.phone && (
-                    <div className="error-message">{errors.phone}</div>
-                  )}
-                </td>
-                <td>
-                  <input 
-                    type="email" 
-                    name="email" 
-                    id="signup_email" 
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={formData.email}
-                    className={touched.email && errors.email ? 'error' : ''}
-                  />
-                  {touched.email && errors.email && (
-                    <div className="error-message">{errors.email}</div>
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <th><label htmlFor="signup_location">Адрес</label></th>
-              </tr>
-              <tr>
-                <td colSpan={2}>
-                  <textarea 
-                    name="location" 
-                    id="signup_location"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={formData.location}
-                    className={touched.location && errors.location ? 'error' : ''}
-                  />
-                  {touched.location && errors.location && (
-                    <div className="error-message">{errors.location}</div>
-                  )}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          
-          {errors.general && (
-            <div className="error-message general">{errors.general}</div>
-          )}
-        </form>
-        
-        <div className="buttons">
-          <button 
-            className="signup-button" 
-            onClick={signup}
-            disabled={isLoading}
-          >
-            {isLoading ? "Регистрация..." : "Регистрация"}
-          </button>
-
-          <div className="btn-divider">
-            <div className="line-"></div>
-            <h4>Или</h4>
-            <div className="line-"></div>          
-          </div>
-
-          <button className="login-button" onClick={toSignin}>
-            Вход
-          </button>
+      <h1 onClick={toHome}>DAM</h1>
+      <form className="signup_form" onSubmit={e => { e.preventDefault(); signup(); }}>
+        <div className="section-title">ДАННЫЕ АККАУНТА</div>
+        <div className="input-row">
+          <UserIcon className="icon" />
+          <label htmlFor="signup_firstname">Имя</label>
         </div>
-      </div>
+        <input 
+          type="text"
+          name="firstname"
+          id="signup_firstname"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={formData.firstname}
+          className={touched.firstname && errors.firstname ? 'error' : ''}
+        />
+        {touched.firstname && errors.firstname && (
+          <div className="error-message">{errors.firstname}</div>
+        )}
+        <div className="input-row">
+          <UserIcon className="icon" />
+          <label htmlFor="signup_lastname">Фамилия</label>
+        </div>
+        <input 
+          type="text"
+          name="lastname"
+          id="signup_lastname"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={formData.lastname}
+          className={touched.lastname && errors.lastname ? 'error' : ''}
+        />
+        {touched.lastname && errors.lastname && (
+          <div className="error-message">{errors.lastname}</div>
+        )}
+        <div className="input-row">
+          <UserIcon className="icon" />
+          <label htmlFor="signup_username">Имя пользователя</label>
+        </div>
+        <input 
+          type="text"
+          name="username"
+          id="signup_username"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={formData.username}
+          className={touched.username && errors.username ? 'error' : ''}
+        />
+        {touched.username && errors.username && (
+          <div className="error-message">{errors.username}</div>
+        )}
+        <div className="input-row">
+          <LockIcon className="icon" />
+          <label htmlFor="signup_password">Пароль</label>
+        </div>
+        <input 
+          type="password"
+          name="password"
+          id="signup_password"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={formData.password}
+          className={touched.password && errors.password ? 'error' : ''}
+        />
+        {touched.password && errors.password && (
+          <div className="error-message">{errors.password}</div>
+        )}
+        <div className="input-row">
+          <LockIcon className="icon" />
+          <label htmlFor="signup_confirm_password">Подтвердите пароль</label>
+        </div>
+        <input 
+          type="password"
+          name="confirm_password"
+          id="signup_confirm_password"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={formData.confirm_password}
+          className={touched.confirm_password && errors.confirm_password ? 'error' : ''}
+        />
+        {touched.confirm_password && errors.confirm_password && (
+          <div className="error-message">{errors.confirm_password}</div>
+        )}
+        <div className="section-title">КОНТАКТНАЯ ИНФОРМАЦИЯ</div>
+        <div className="input-row">
+          <PhoneIcon className="icon" />
+          <label htmlFor="signup_phone">Телефон</label>
+        </div>
+        <input 
+          type="tel"
+          name="phone"
+          id="signup_phone"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={formData.phone}
+          className={touched.phone && errors.phone ? 'error' : ''}
+        />
+        {touched.phone && errors.phone && (
+          <div className="error-message">{errors.phone}</div>
+        )}
+        <div className="input-row">
+          <MailIcon className="icon" />
+          <label htmlFor="signup_email">Email</label>
+        </div>
+        <input 
+          type="email"
+          name="email"
+          id="signup_email"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={formData.email}
+          className={touched.email && errors.email ? 'error' : ''}
+        />
+        {touched.email && errors.email && (
+          <div className="error-message">{errors.email}</div>
+        )}
+        <div className="input-row">
+          <PinIcon className="icon" />
+          <label htmlFor="signup_location">Адрес</label>
+        </div>
+        <textarea 
+          name="location"
+          id="signup_location"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={formData.location}
+          className={touched.location && errors.location ? 'error' : ''}
+        />
+        {touched.location && errors.location && (
+          <div className="error-message">{errors.location}</div>
+        )}
+        {errors.general && (
+          <div className="error-message general">{errors.general}</div>
+        )}
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Регистрация..." : "Регистрация"}
+        </button>
+        <div className="to-login-text">
+          <p>Уже есть аккаунт?</p>
+          <p><a onClick={toSignin}>Войти</a></p>
+        </div>
+      </form>
     </main>
   )
 }

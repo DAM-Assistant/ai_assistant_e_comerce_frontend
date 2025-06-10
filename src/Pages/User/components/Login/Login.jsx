@@ -5,6 +5,8 @@ import { ReactComponent as LockIcon } from "../../../../Resources/Icons/lock_fil
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import Cookies from "js-cookie"
+import './Login.scss';
+import '@fontsource/oswald/700.css';
 
 const Login = () => {
   const navigate = useNavigate()
@@ -170,7 +172,7 @@ const Login = () => {
   
   return (
     <main className="login">
-      <div className="container">
+      {/* <div className="container"> */}
         <h1 onClick={toHome}>DAM</h1>
         <div className="signin_form">
           <table>
@@ -232,7 +234,7 @@ const Login = () => {
             <p>Зарегистрируйтесь <a onClick={toSignup}>здесь!</a></p>
           </div>
         </div>
-      </div>
+      {/* </div> */}
     </main>
   )
 }
