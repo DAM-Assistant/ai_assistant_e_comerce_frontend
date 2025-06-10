@@ -40,5 +40,24 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script>
+      const handleDownloadPDF = async () => {
+        const input = document.getElementById('order-details-pdf');
+        if (!input) return;
+        input.classList.add('pdf-export');
+        await new Promise(resolve => setTimeout(resolve, 100)); // Дать время примениться стилям
+        const canvas = await html2canvas(input, { scale: 2 });
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF({ orientation: 'p', unit: 'px', format: [595, 1200] }); // ширина A4, высота увеличена
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pageWidth - 40;
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        pdf.addImage(imgData, 'PNG', 20, 20, pdfWidth, pdfHeight);
+        pdf.save(`order_${order.id}.pdf`);
+        input.classList.remove('pdf-export');
+      };
+    </script>
   </body>
 </html>

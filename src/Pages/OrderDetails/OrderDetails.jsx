@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect, useRef } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
 import './OrderDetails.css';
@@ -17,6 +17,23 @@ const OrderDetails = () => {
   const [order, setOrder] = useState(location.state.order)
   const [cancelModal, setCancelModal] = useState(false)
   const [showQR, setShowQR] = useState(false);
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    if (order?.id && order?.created_at && window.JsBarcode && canvasRef.current) {
+      const value = `${order.id}_${order.created_at}`;
+      window.JsBarcode(canvasRef.current, value, {
+        format: "CODE128",
+        lineColor: "#111",
+        width: 2,
+        height: 48,
+        displayValue: true,
+        fontSize: 12,
+        margin: 4,
+        background: "#fff"
+      });
+    }
+  }, [order?.id, order?.created_at]);
 
   const goBack = async() => {
     window.scrollTo(0, 0);
@@ -50,9 +67,11 @@ const OrderDetails = () => {
   const handleDownloadPDF = async () => {
     const input = document.getElementById('order-details-pdf');
     if (!input) return;
+    input.classList.add('pdf-export');
+    await new Promise(resolve => setTimeout(resolve, 100)); // Дать время примениться стилям
     const canvas = await html2canvas(input, { scale: 2 });
     const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF({ orientation: 'p', unit: 'px', format: 'a4' });
+    const pdf = new jsPDF({ orientation: 'p', unit: 'px', format: [595, 1400] });
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
     const imgProps = pdf.getImageProperties(imgData);
@@ -60,6 +79,7 @@ const OrderDetails = () => {
     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
     pdf.addImage(imgData, 'PNG', 20, 20, pdfWidth, pdfHeight);
     pdf.save(`order_${order.id}.pdf`);
+    input.classList.remove('pdf-export');
   };
 
   return (
@@ -169,13 +189,18 @@ const OrderDetails = () => {
             <h1>{order.final_total_cost.toLocaleString("en-US")} ₸</h1>
           </div>
 
+          <div style={{ display: 'flex', justifyContent: 'center', margin: '24px 0' }}>
+            <canvas ref={canvasRef} width={400} height={60} style={{maxWidth: '100%', background: '#fff'}} />
+          </div>
+
           <div className="seperator"></div>
 
-          {(order.status === "processing") && (
-            <button className="cancel-btn" onClick={cancelOrder}>ОТМЕНИТЬ ЗАКАЗ</button>
-          )}
-          
-          <button className="back-btn" onClick={goBack}>НАЗАД</button>
+          <div className="order-actions">
+            {(order.status === "processing") && (
+              <button className="cancel-btn" onClick={cancelOrder}>ОТМЕНИТЬ ЗАКАЗ</button>
+            )}
+            <button className="back-btn" onClick={goBack}>НАЗАД</button>
+          </div>
         </div>
       </div>
 

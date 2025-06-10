@@ -137,3 +137,24 @@
         padding-top: 60px;
     }
 }
+
+/* PDF export styles */
+.pdf-export {
+  background: #fff !important;
+  color: #111 !important;
+}
+.pdf-export * {
+  background: none !important;
+  color: #111 !important;
+  border-color: #111 !important;
+  box-shadow: none !important;
+}
+.pdf-export h1, .pdf-export h2, .pdf-export th, .pdf-export td, .pdf-export p, .pdf-export span, .pdf-export div {
+  color: #111 !important;
+}
+.pdf-export .status.processing,
+.pdf-export .status.completed,
+.pdf-export .status.canceled {
+  color: #111 !important;
+  font-weight: 700;
+}
