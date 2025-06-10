@@ -4,72 +4,81 @@
   top: 0;
   left: 0;
   z-index: 1000;
-  background: rgba(26, 26, 46, 0.8);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(100, 255, 218, 0.2);
+  background: rgba(26, 26, 46, 0.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1.5px solid rgba(100, 255, 218, 0.22);
   transition: all 0.3s ease;
-  padding: 15px 0;
+  padding: 28px 0 22px 0;
+  min-height: 82px;
+  box-shadow: 0 6px 32px 0 rgba(100,255,218,0.08);
 
   &.sticky {
-    background: rgba(26, 26, 46, 0.95);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    background: rgba(26, 26, 46, 0.97);
+    box-shadow: 0 8px 36px 0 rgba(100,255,218,0.13);
   }
 
   .container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 60px;
   }
 
   .logo {
     h1 {
-      font-size: 32px;
-      font-weight: 700;
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: 2px;
       background: linear-gradient(135deg, #64ffda 0%, #4fc3f7 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       cursor: pointer;
       transition: all 0.3s ease;
-
+      margin: 0;
+      padding-left: 2px;
       &:hover {
-        transform: translateY(-2px);
+        transform: translateY(-2px) scale(1.04);
+        filter: brightness(1.15);
       }
     }
   }
 
   .navigation {
+    flex: 1;
+    display: flex;
+    justify-content: center;
     .menu-list {
       display: flex;
-      gap: 40px;
+      gap: 56px;
       list-style: none;
-
+      align-items: center;
       .menu-item {
         h2 {
           color: #b3c5d1;
-          font-size: 16px;
-          font-weight: 500;
+          font-size: 1.18rem;
+          font-weight: 600;
+          letter-spacing: 0.5px;
           cursor: pointer;
           transition: all 0.3s ease;
           position: relative;
-
+          padding: 2px 0;
           &:after {
             content: '';
             position: absolute;
-            bottom: -4px;
+            bottom: -6px;
             left: 0;
             width: 0;
-            height: 2px;
+            height: 2.5px;
             background: linear-gradient(135deg, #64ffda 0%, #4fc3f7 100%);
             transition: width 0.3s ease;
+            border-radius: 2px;
           }
-
           &:hover {
             color: #64ffda;
-
             &:after {
               width: 100%;
             }
@@ -82,59 +91,55 @@
   .buttons {
     display: flex;
     align-items: center;
-    gap: 20px;
-
+    gap: 28px;
     button {
       background: none;
       border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      border-radius: 8px;
+      gap: 10px;
+      padding: 10px 22px;
+      border-radius: 10px;
       transition: all 0.3s ease;
-
+      font-size: 1.08rem;
+      font-weight: 600;
       .icon {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
         fill: #b3c5d1;
         transition: fill 0.3s ease;
       }
-
       h2 {
         color: #b3c5d1;
-        font-size: 14px;
-        font-weight: 500;
+        font-size: 1.08rem;
+        font-weight: 600;
       }
-
       &:hover {
-        background: rgba(100, 255, 218, 0.1);
-
+        background: rgba(100, 255, 218, 0.13);
         .icon, h2 {
           color: #64ffda;
           fill: #64ffda;
         }
       }
     }
-
     .cart-button {
       position: relative;
-
       .cart-alert {
         position: absolute;
-        top: -8px;
-        right: -8px;
+        top: -10px;
+        right: -10px;
         background: #64ffda;
         color: #1a1a2e;
-        font-size: 12px;
-        font-weight: 600;
-        width: 20px;
-        height: 20px;
+        font-size: 13px;
+        font-weight: 700;
+        width: 22px;
+        height: 22px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
+        box-shadow: 0 2px 8px rgba(100,255,218,0.18);
       }
     }
   }
@@ -143,30 +148,46 @@
     display: none;
   }
 
+  @media (max-width: 900px) {
+    .container {
+      padding: 0 12px;
+    }
+    .navigation .menu-list {
+      gap: 28px;
+    }
+    .logo h1 {
+      font-size: 2rem;
+    }
+    .buttons button {
+      font-size: 1rem;
+      padding: 8px 12px;
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
   @media (max-width: 768px) {
     padding: 10px 0;
-
+    min-height: 60px;
     .container {
-      padding: 0 15px;
+      padding: 0 8px;
     }
-
     .logo h1 {
-      font-size: 28px;
+      font-size: 1.5rem;
+      margin-right: 12px;
     }
-
     .navigation {
       display: none;
     }
-
     .buttons {
       display: none;
     }
-
     .responsive-buttons {
       display: flex;
       align-items: center;
-      gap: 15px;
-
+      gap: 12px;
       button {
         background: none;
         border: none;
@@ -174,22 +195,18 @@
         padding: 8px;
         border-radius: 8px;
         transition: all 0.3s ease;
-
         .icon {
           width: 24px;
           height: 24px;
           fill: #b3c5d1;
           transition: fill 0.3s ease;
         }
-
         &:hover {
           background: rgba(100, 255, 218, 0.1);
-
           .icon {
             fill: #64ffda;
           }
         }
-
         &.open {
           .menu-icon {
             display: none;
@@ -198,7 +215,6 @@
             display: block;
           }
         }
-
         .menu-icon {
           display: block;
         }
@@ -207,7 +223,6 @@
         }
       }
     }
-
     &.mobile-menu-open {
       .container {
         display: flex;
@@ -216,30 +231,25 @@
         top: 100%;
         left: 0;
         right: 0;
-        background: rgba(26, 26, 46, 0.95);
-        backdrop-filter: blur(10px);
+        background: rgba(26, 26, 46, 0.97);
+        backdrop-filter: blur(12px);
         padding: 20px;
-        border-bottom: 1px solid rgba(100, 255, 218, 0.2);
-
+        border-bottom: 1.5px solid rgba(100, 255, 218, 0.22);
         .navigation {
           display: block;
           margin: 20px 0;
-
           .menu-list {
             flex-direction: column;
-            gap: 20px;
-
+            gap: 18px;
             .menu-item h2 {
-              font-size: 18px;
+              font-size: 1.15rem;
             }
           }
         }
-
         .buttons {
           display: flex;
           flex-direction: column;
           width: 100%;
-
           button {
             width: 100%;
             justify-content: center;

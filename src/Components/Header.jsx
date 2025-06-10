@@ -127,6 +127,7 @@ const Header = () => {
               <div className="cart-alert">{numCartItems}</div>
             )}
           </button>
+          <div style={{width: '18px'}}></div>
           <button className="account-button" type="button" onClick={toUser}>
             <AccountCircleIcon className="icon"/>
           </button>
